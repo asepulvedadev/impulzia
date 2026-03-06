@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/expire-ads",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/cron/expire-incentives",
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}

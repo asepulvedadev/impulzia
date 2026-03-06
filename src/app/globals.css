@@ -1,0 +1,105 @@
+@import 'tailwindcss';
+
+/* ========================================
+   IMPULZIA — Brand Design Tokens
+   ======================================== */
+
+@theme inline {
+  /* Brand Primary — Azul Eléctrico */
+  --color-brand-primary-50: #eff6ff;
+  --color-brand-primary-100: #dbeafe;
+  --color-brand-primary-200: #bfdbfe;
+  --color-brand-primary-300: #93c5fd;
+  --color-brand-primary-400: #60a5fa;
+  --color-brand-primary-500: #3b82f6;
+  --color-brand-primary-600: #2563eb;
+  --color-brand-primary-700: #1d4ed8;
+  --color-brand-primary-800: #1e40af;
+  --color-brand-primary-900: #1e3a8a;
+
+  /* Brand Accent — Naranja Vibrante */
+  --color-brand-accent-50: #fff7ed;
+  --color-brand-accent-100: #ffedd5;
+  --color-brand-accent-200: #fed7aa;
+  --color-brand-accent-300: #fdba74;
+  --color-brand-accent-400: #fb923c;
+  --color-brand-accent-500: #f97316;
+  --color-brand-accent-600: #ea580c;
+  --color-brand-accent-700: #c2410c;
+  --color-brand-accent-800: #9a3412;
+  --color-brand-accent-900: #7c2d12;
+
+  /* Brand Success — Verde Esmeralda */
+  --color-brand-success-50: #ecfdf5;
+  --color-brand-success-100: #d1fae5;
+  --color-brand-success-200: #a7f3d0;
+  --color-brand-success-300: #6ee7b7;
+  --color-brand-success-400: #34d399;
+  --color-brand-success-500: #10b981;
+  --color-brand-success-600: #059669;
+  --color-brand-success-700: #047857;
+  --color-brand-success-800: #065f46;
+  --color-brand-success-900: #064e3b;
+
+  /* Brand Warning — Ámbar */
+  --color-brand-warning-50: #fffbeb;
+  --color-brand-warning-100: #fef3c7;
+  --color-brand-warning-200: #fde68a;
+  --color-brand-warning-300: #fcd34d;
+  --color-brand-warning-400: #fbbf24;
+  --color-brand-warning-500: #f59e0b;
+  --color-brand-warning-600: #d97706;
+  --color-brand-warning-700: #b45309;
+  --color-brand-warning-800: #92400e;
+  --color-brand-warning-900: #78350f;
+
+  /* Brand Error — Rojo */
+  --color-brand-error-50: #fef2f2;
+  --color-brand-error-100: #fee2e2;
+  --color-brand-error-200: #fecaca;
+  --color-brand-error-300: #fca5a5;
+  --color-brand-error-400: #f87171;
+  --color-brand-error-500: #ef4444;
+  --color-brand-error-600: #dc2626;
+  --color-brand-error-700: #b91c1c;
+  --color-brand-error-800: #991b1b;
+  --color-brand-error-900: #7f1d1d;
+
+  /* Fonts */
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+
+  /* Semantic colors */
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-muted: var(--muted);
+}
+
+/* ========================================
+   Dark Mode Only
+   ======================================== */
+:root {
+  --bg: #111621;
+  --fg: #f8fafc;
+  --card-bg: #1a2030;
+  --card-border: #2d3748;
+  --muted: #94a3b8;
+}
+
+/* ========================================
+   Base styles
+   ======================================== */
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* ========================================
+   Custom Utilities
+   ======================================== */
+@utility bg-hero-gradient {
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 30%, #f97316 100%);
+}

@@ -1,0 +1,7 @@
+.agents/
+.claude/
+.next/
+node_modules/
+bun.lock
+coverage/
+playwright-report/
