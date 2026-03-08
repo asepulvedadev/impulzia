@@ -83,7 +83,8 @@ export class AuthService {
     const updateData: ProfileUpdate = {}
     if (input.fullName !== undefined) updateData.full_name = input.fullName
     if (input.phone !== undefined) updateData.phone = input.phone
-    if (input.avatarUrl !== undefined) updateData.avatar_url = input.avatarUrl
+    if (input.avatarUrl !== undefined) updateData.avatar_url = input.avatarUrl || null
+    if (input.city !== undefined) updateData.city = input.city
 
     const { data, error } = await this.supabase
       .from('profiles')

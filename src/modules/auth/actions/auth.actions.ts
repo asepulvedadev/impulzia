@@ -74,11 +74,40 @@ export async function updateProfileAction(
     fullName: (formData.get('fullName') as string) || undefined,
     phone: (formData.get('phone') as string) || undefined,
     avatarUrl: (formData.get('avatarUrl') as string) || undefined,
+    city: (formData.get('city') as string) || undefined,
   })
 
   if (result.success) {
+    revalidatePath('/panel/perfil')
     revalidatePath('/panel')
   }
 
   return result
+}
+
+export async function changePasswordAction(
+  _prevState: AuthResult,
+  formData: FormData,
+): Promise<AuthResult> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return { data: null, error: 'No autenticado', success: false }
+
+  const newPassword = formData.get('newPassword') as string
+  const confirmPassword = formData.get('confirmPassword') as string
+
+  if (!newPassword || newPassword.length < 8) {
+    return { data: null, error: 'La contraseña debe tener al menos 8 caracteres', success: false }
+  }
+  if (newPassword !== confirmPassword) {
+    return { data: null, error: 'Las contraseñas no coinciden', success: false }
+  }
+
+  const { error } = await supabase.auth.updateUser({ password: newPassword })
+  if (error) return { data: null, error: error.message, success: false }
+
+  return { data: null, error: null, success: true }
 }

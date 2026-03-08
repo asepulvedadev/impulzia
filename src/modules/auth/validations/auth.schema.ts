@@ -18,7 +18,8 @@ export const loginSchema = z.object({
 export const updateProfileSchema = z.object({
   fullName: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').optional(),
   phone: z.string().optional(),
-  avatarUrl: z.string().url('Ingresa una URL válida').optional(),
+  avatarUrl: z.string().url('Ingresa una URL válida').optional().or(z.literal('')),
+  city: z.string().optional(),
 })
 
 export type SignupInput = z.infer<typeof signupSchema>

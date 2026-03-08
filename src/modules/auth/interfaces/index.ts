@@ -29,6 +29,7 @@ export interface UpdateProfileData {
   fullName?: string
   phone?: string
   avatarUrl?: string
+  city?: string
 }
 
 export interface AuthResult<T = undefined> {
