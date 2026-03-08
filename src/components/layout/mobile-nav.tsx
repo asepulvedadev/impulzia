@@ -42,12 +42,11 @@ export function MobileNav({ role }: { role: Role }) {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex flex-1 flex-col items-center gap-0.5 py-2 transition-colors',
+                'flex flex-1 items-center justify-center py-3 transition-colors',
                 isActive ? 'text-brand-primary-400' : 'text-muted hover:text-foreground',
               )}
             >
               <item.icon className="h-5 w-5" />
-              <span className="text-[10px] font-medium">{item.label}</span>
             </Link>
           )
         })}
@@ -56,10 +55,9 @@ export function MobileNav({ role }: { role: Role }) {
         <form action={logoutAction} className="flex flex-1">
           <button
             type="submit"
-            className="flex flex-1 flex-col items-center gap-0.5 py-2 text-muted transition-colors hover:text-red-400"
+            className="flex flex-1 items-center justify-center py-3 text-muted transition-colors hover:text-red-400"
           >
             <LogOut className="h-5 w-5" />
-            <span className="text-[10px] font-medium">Salir</span>
           </button>
         </form>
       </div>
