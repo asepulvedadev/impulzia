@@ -16,18 +16,21 @@ function getCategoryIcon(iconName: string | null): LucideIcons.LucideIcon | null
   return icons[iconName] ?? null
 }
 
+const chipBase =
+  'inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors'
+const chipActive =
+  'border-brand-primary-600 bg-brand-primary-900/40 text-brand-primary-300'
+const chipIdle =
+  'border-slate-700 bg-slate-800/60 text-slate-400 hover:border-slate-600 hover:text-slate-200'
+
 export function CategoryChips({ categories, activeSlug, onSelect }: CategoryChipsProps) {
   return (
-    <div className="flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="flex flex-wrap gap-1.5">
+      {/* Todas */}
       <button
         type="button"
         onClick={() => onSelect(null)}
-        className={cn(
-          'inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-          !activeSlug
-            ? 'bg-brand-primary-900/30 text-brand-primary-300'
-            : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200',
-        )}
+        className={cn(chipBase, !activeSlug ? chipActive : chipIdle)}
       >
         Todas
       </button>
@@ -40,14 +43,9 @@ export function CategoryChips({ categories, activeSlug, onSelect }: CategoryChip
             key={cat.id}
             type="button"
             onClick={() => onSelect(cat.slug)}
-            className={cn(
-              'inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-              isActive
-                ? 'bg-brand-primary-900/30 text-brand-primary-300'
-                : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200',
-            )}
+            className={cn(chipBase, isActive ? chipActive : chipIdle)}
           >
-            {Icon && <Icon className="h-4 w-4" />}
+            {Icon && <Icon className="h-3.5 w-3.5 shrink-0" />}
             {cat.name}
           </button>
         )
