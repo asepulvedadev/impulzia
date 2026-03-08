@@ -20,19 +20,34 @@ async function getAuthenticatedService() {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return { service: null, userId: null, error: 'No autenticado' }
+    return { service: null, userId: null, role: null, error: 'No autenticado' }
   }
 
-  return { service: new BusinessService(supabase), userId: user.id, error: null }
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  return {
+    service: new BusinessService(supabase),
+    userId: user.id,
+    role: profile?.role ?? null,
+    error: null,
+  }
 }
 
 export async function createBusinessAction(
   _prevState: ServiceResult<Business>,
   formData: FormData,
 ): Promise<ServiceResult<Business>> {
-  const { service, userId, error } = await getAuthenticatedService()
+  const { service, userId, role, error } = await getAuthenticatedService()
   if (!service || !userId) {
     return { data: null, error: error ?? 'No autenticado', success: false }
+  }
+
+  if (role !== 'business_owner' && role !== 'admin') {
+    return { data: null, error: 'No tienes permiso para crear negocios', success: false }
   }
 
   const input = {
