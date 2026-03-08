@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Store, Gift, Sparkles, LogOut } from 'lucide-react'
+import { LayoutDashboard, Store, Gift, Sparkles, LogOut, Compass } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import { logoutAction } from '@/modules/auth/actions/auth.actions'
 
@@ -11,6 +11,7 @@ type Role = 'user' | 'business_owner' | 'admin'
 const navByRole: Record<Role, { href: string; label: string; icon: React.ElementType }[]> = {
   user: [
     { href: '/panel', label: 'Panel', icon: LayoutDashboard },
+    { href: '/panel/explorar', label: 'Explorar', icon: Compass },
   ],
   business_owner: [
     { href: '/panel', label: 'Panel', icon: LayoutDashboard },

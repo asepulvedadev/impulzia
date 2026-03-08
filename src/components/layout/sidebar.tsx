@@ -11,6 +11,7 @@ import {
   User,
   LogOut,
   ShieldCheck,
+  Compass,
 } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import { Logo } from '@/components/shared/logo'
@@ -28,6 +29,7 @@ interface SidebarLink {
 const linksByRole: Record<Role, SidebarLink[]> = {
   user: [
     { href: '/panel', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/panel/explorar', label: 'Explorar', icon: Compass },
     { href: '/panel/perfil', label: 'Mi Perfil', icon: User },
   ],
   business_owner: [
