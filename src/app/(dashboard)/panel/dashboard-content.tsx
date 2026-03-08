@@ -57,7 +57,7 @@ export function DashboardContent({ profile, business }: DashboardContentProps) {
             <div className="rounded-2xl bg-brand-primary-900/30 p-4">
               <Store className="h-10 w-10 text-brand-primary-600" />
             </div>
-            <h2 className="mt-4 text-xl font-bold text-white">Registra tu negocio en IMPULZIA</h2>
+            <h2 className="mt-4 text-xl font-bold text-white">Registra tu negocio en IKARUS</h2>
             <p className="mt-2 max-w-sm text-sm text-muted">
               Crea tu perfil comercial para empezar a publicar anuncios, ofrecer cupones y usar
               herramientas de IA para tu negocio.

@@ -1,10 +1,23 @@
 @import 'tailwindcss';
 
 /* ========================================
-   IMPULZIA — Brand Design Tokens
+   IKARUS — Custom Fonts
+   ======================================== */
+
+@font-face {
+  font-family: 'Blanka';
+  src: url('/font/Blanka-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ========================================
+   IKARUS — Brand Design Tokens
    ======================================== */
 
 @theme inline {
+  --font-blanka: 'Blanka', sans-serif;
   /* Brand Primary — Azul Eléctrico */
   --color-brand-primary-50: #eff6ff;
   --color-brand-primary-100: #dbeafe;

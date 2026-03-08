@@ -37,7 +37,7 @@ export function SignupForm() {
     <div className="space-y-6">
       <div className="text-center">
         <h1 className="font-heading text-2xl font-bold text-white">Crear cuenta</h1>
-        <p className="mt-1 text-sm text-muted">Registra tu negocio en IMPULZIA</p>
+        <p className="mt-1 text-sm text-muted">Registra tu negocio en IKARUS</p>
       </div>
 
       <form action={action} className="space-y-4">

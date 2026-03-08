@@ -31,7 +31,7 @@ export default async function NegocioPage() {
         <div>
           <h1 className="font-heading text-2xl font-bold text-white">Registra tu negocio</h1>
           <p className="mt-1 text-muted">
-            Completa los datos de tu comercio para aparecer en IMPULZIA
+            Completa los datos de tu comercio para aparecer en IKARUS
           </p>
         </div>
         <BusinessForm categories={categories} />

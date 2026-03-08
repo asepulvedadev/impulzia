@@ -22,11 +22,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const result = await service.getBySlug(slug)
 
   if (!result.data) {
-    return { title: 'Negocio no encontrado | IMPULZIA' }
+    return { title: 'Negocio no encontrado | IKARUS' }
   }
 
   return {
-    title: `${result.data.name} | IMPULZIA`,
+    title: `${result.data.name} | IKARUS`,
     description: result.data.short_description ?? result.data.description ?? undefined,
   }
 }

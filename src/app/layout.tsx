@@ -14,7 +14,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'IMPULZIA — Tu negocio, impulsado por IA',
+  title: 'IKARUS — Tu negocio, impulsado por IA',
   description:
     'La plataforma que conecta comercios locales con clientes usando inteligencia artificial. Publicidad, incentivos, marketplace y red social comercial.',
 }

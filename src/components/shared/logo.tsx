@@ -1,16 +1,9 @@
-import { Zap } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
 const sizeClasses = {
-  sm: 'text-lg',
+  sm: 'text-xl',
   md: 'text-2xl',
   lg: 'text-4xl',
-} as const
-
-const iconSizes = {
-  sm: 14,
-  md: 20,
-  lg: 28,
 } as const
 
 interface LogoProps {
@@ -22,21 +15,18 @@ interface LogoProps {
 export function Logo({ size = 'md', collapsed = false, className }: LogoProps) {
   return (
     <div className={cn('flex items-center', className)}>
-      <Zap
-        size={iconSizes[size]}
-        className="shrink-0 text-brand-accent-500 fill-brand-accent-500"
-        strokeWidth={2.5}
-      />
       <span
         data-testid="logo-text"
         className={cn(
-          'inline-flex overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out',
-          collapsed ? 'max-w-0 opacity-0 ml-0' : 'max-w-[150px] opacity-100 ml-1',
+          'overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out',
+          collapsed ? 'max-w-0 opacity-0' : 'max-w-[200px] opacity-100',
         )}
       >
-        <span className={cn('font-heading font-extrabold tracking-tight', sizeClasses[size])}>
-          <span className="text-brand-primary-600">IMPULZ</span>
-          <span className="text-brand-accent-500">IA</span>
+        <span
+          className={cn('tracking-widest text-white', sizeClasses[size])}
+          style={{ fontFamily: 'Blanka, sans-serif' }}
+        >
+          IKARUS
         </span>
       </span>
     </div>

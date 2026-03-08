@@ -9,7 +9,7 @@ import { AdSlot, AdSlotSkeleton } from '@/modules/anuncios/components/ad-slot'
 import type { BusinessCategory, BusinessCard } from '@/modules/negocios/interfaces'
 
 export const metadata: Metadata = {
-  title: 'Explorar negocios en Cúcuta | IMPULZIA',
+  title: 'Explorar negocios en Cúcuta | IKARUS',
   description:
     'Descubre los mejores comercios locales en Cúcuta. Restaurantes, tiendas, servicios y más.',
 }

@@ -69,7 +69,7 @@ export function BusinessForm({ categories }: BusinessFormProps) {
             />
             {previewSlug && (
               <p className="mt-1 text-xs text-muted">
-                URL: impulzia.com/negocio/<span className="font-medium">{previewSlug}</span>
+                URL: ikarus.app/negocio/<span className="font-medium">{previewSlug}</span>
               </p>
             )}
           </div>
