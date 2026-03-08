@@ -854,6 +854,45 @@ export interface Database {
         }
         Relationships: []
       }
+      promo_banners: {
+        Row: {
+          id: string
+          title: string
+          subtitle: string | null
+          image_url: string | null
+          bg_gradient: string | null
+          cta_text: string | null
+          cta_url: string | null
+          is_active: boolean | null
+          display_order: number | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          subtitle?: string | null
+          image_url?: string | null
+          bg_gradient?: string | null
+          cta_text?: string | null
+          cta_url?: string | null
+          is_active?: boolean | null
+          display_order?: number | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          subtitle?: string | null
+          image_url?: string | null
+          bg_gradient?: string | null
+          cta_text?: string | null
+          cta_url?: string | null
+          is_active?: boolean | null
+          display_order?: number | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       ad_stats: {

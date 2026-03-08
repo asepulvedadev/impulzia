@@ -1,28 +1,25 @@
 import Link from 'next/link'
 import { ArrowRight, MapPin, Tag, Percent, Gift } from 'lucide-react'
+import { PromoBannerSlider } from '@/components/shared/promo-banner-slider'
 import { IncentiveCard } from '@/modules/incentivos/components/incentive-card'
 import { BusinessCard } from '@/modules/negocios/components/business-card'
+import type { PromoBanner } from '@/components/shared/promo-banner-slider'
 import type { IncentiveWithBusiness } from '@/modules/incentivos/interfaces'
 import type { BusinessCard as BusinessCardType } from '@/modules/negocios/interfaces'
 
 interface UserDashboardProps {
-  firstName: string
+  banners: PromoBanner[]
   incentives: IncentiveWithBusiness[]
   businesses: BusinessCardType[]
 }
 
-export function UserDashboard({ firstName, incentives, businesses }: UserDashboardProps) {
+export function UserDashboard({ banners, incentives, businesses }: UserDashboardProps) {
   return (
     <div className="space-y-10">
-      {/* Greeting */}
-      <div>
-        <h1 className="font-heading text-2xl font-bold text-white sm:text-3xl">
-          Hola, {firstName} 👋
-        </h1>
-        <p className="mt-1 text-muted">Descubre ofertas y negocios cerca de ti</p>
-      </div>
+      {/* Promo banner slider */}
+      <PromoBannerSlider banners={banners} />
 
-      {/* Promotions banner */}
+      {/* Promotions */}
       {incentives.length > 0 && (
         <section>
           <div className="mb-4 flex items-center justify-between">
@@ -38,7 +35,6 @@ export function UserDashboard({ firstName, incentives, businesses }: UserDashboa
             </Link>
           </div>
 
-          {/* Horizontal scroll on mobile, grid on desktop */}
           <div className="flex gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible sm:pb-0">
             {incentives.map((incentive) => (
               <div key={incentive.id} className="w-64 shrink-0 sm:w-auto">
@@ -47,7 +43,6 @@ export function UserDashboard({ firstName, incentives, businesses }: UserDashboa
             ))}
           </div>
 
-          {/* Type legend */}
           <div className="mt-4 flex flex-wrap gap-3">
             {[
               { icon: Tag, label: 'Cupón', color: 'text-brand-primary-400' },
