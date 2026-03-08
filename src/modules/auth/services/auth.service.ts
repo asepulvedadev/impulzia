@@ -79,6 +79,25 @@ export class AuthService {
     return { data: data as ProfileRow, error: null, success: true }
   }
 
+  async uploadAvatar(userId: string, file: File): Promise<AuthResult<string>> {
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
+    const path = `${userId}/avatar.${ext}`
+
+    const { error: uploadError } = await this.supabase.storage
+      .from('avatars')
+      .upload(path, file, { upsert: true })
+
+    if (uploadError) return { data: null, error: uploadError.message, success: false }
+
+    const {
+      data: { publicUrl },
+    } = this.supabase.storage.from('avatars').getPublicUrl(path)
+
+    await this.supabase.from('profiles').update({ avatar_url: publicUrl }).eq('id', userId)
+
+    return { data: publicUrl, error: null, success: true }
+  }
+
   async updateProfile(userId: string, input: UpdateProfileData): Promise<AuthResult<ProfileRow>> {
     const updateData: ProfileUpdate = {}
     if (input.fullName !== undefined) updateData.full_name = input.fullName

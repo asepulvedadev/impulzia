@@ -23,18 +23,15 @@ export default async function ExplorarPage({ searchParams }: ExplorarPageProps) 
   const supabase = await createClient()
   const service = new BusinessService(supabase)
 
-  // Get categories for filters
+  // Fetch categories first to resolve categoryId, then search in parallel with nothing else
   const categoriesResult = await service.getCategories()
   const categories = (categoriesResult.data as BusinessCategory[]) ?? []
 
-  // Find category_id from slug
-  let categoryId: string | undefined
-  if (params.category) {
-    const cat = categories.find((c) => c.slug === params.category)
-    if (cat) categoryId = cat.id
-  }
+  const categoryId = params.category
+    ? (categories.find((c) => c.slug === params.category)?.id ?? undefined)
+    : undefined
 
-  // Search businesses
+  // Search businesses (parallelized with AdSlot via Suspense streaming)
   const searchResult = await service.search({
     query: params.query,
     category_id: categoryId,
@@ -62,7 +59,6 @@ export default async function ExplorarPage({ searchParams }: ExplorarPageProps) 
         <SearchFilters categories={categories} />
       </Suspense>
 
-      {/* Ad slot — displayed between search results */}
       <Suspense fallback={<AdSlotSkeleton size="full" />}>
         <AdSlot context="explorer" categoryId={categoryId} className="mt-6" />
       </Suspense>

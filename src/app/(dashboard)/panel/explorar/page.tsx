@@ -16,14 +16,13 @@ export default async function ExplorarPanelPage({ searchParams }: ExplorarPanelP
   const supabase = await createClient()
   const service = new BusinessService(supabase)
 
+  // Fetch categories first to resolve categoryId, then run search
   const categoriesResult = await service.getCategories()
   const categories = (categoriesResult.data as BusinessCategory[]) ?? []
 
-  let categoryId: string | undefined
-  if (params.category) {
-    const cat = categories.find((c) => c.slug === params.category)
-    if (cat) categoryId = cat.id
-  }
+  const categoryId = params.category
+    ? (categories.find((c) => c.slug === params.category)?.id ?? undefined)
+    : undefined
 
   const searchResult = await service.search({
     query: params.query,
@@ -60,7 +59,11 @@ export default async function ExplorarPanelPage({ searchParams }: ExplorarPanelP
 
       {result && result.total_pages > 1 && (
         <Suspense fallback={null}>
-          <Pagination page={result.page} totalPages={result.total_pages} basePath="/panel/explorar" />
+          <Pagination
+            page={result.page}
+            totalPages={result.total_pages}
+            basePath="/panel/explorar"
+          />
         </Suspense>
       )}
     </div>

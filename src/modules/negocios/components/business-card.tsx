@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { BadgeCheck, MapPin, MessageCircle, Star } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import type { BusinessCard as BusinessCardType } from '../interfaces'
@@ -58,22 +59,24 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
       {/* Cover */}
       <Link href={`/negocio/${business.slug}`} className="relative block aspect-[16/9] shrink-0 overflow-hidden">
         {business.cover_url ? (
-          <img
+          <Image
             src={business.cover_url}
             alt={business.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className={cn('h-full w-full bg-gradient-to-br', gradient)}>
             <div className="flex h-full items-center justify-center">
-              <span className="text-7xl font-black text-white/20 select-none">{initial}</span>
+              <span className="select-none text-7xl font-black text-white/20">{initial}</span>
             </div>
           </div>
         )}
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-900 to-transparent" />
 
         {/* Badges */}
-        <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
+        <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
           {tierBadge && (
             <span className={cn('rounded-full px-2 py-0.5 text-[10px] font-black tracking-wider shadow-md', tierBadge.style)}>
               {tierBadge.label}
@@ -89,11 +92,15 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
         {/* Logo */}
         <div className="absolute bottom-0 left-4 translate-y-1/2">
           {business.logo_url ? (
-            <img
-              src={business.logo_url}
-              alt={business.name}
-              className="h-12 w-12 rounded-xl border-2 border-slate-800 object-cover shadow-lg"
-            />
+            <div className="relative h-12 w-12 overflow-hidden rounded-xl border-2 border-slate-800 shadow-lg">
+              <Image
+                src={business.logo_url}
+                alt={`Logo ${business.name}`}
+                fill
+                sizes="48px"
+                className="object-cover"
+              />
+            </div>
           ) : (
             <div className={cn(
               'flex h-12 w-12 items-center justify-center rounded-xl border-2 border-slate-800 shadow-lg text-lg font-black text-white bg-gradient-to-br',

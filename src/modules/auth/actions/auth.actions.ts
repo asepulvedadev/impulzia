@@ -85,6 +85,28 @@ export async function updateProfileAction(
   return result
 }
 
+export async function uploadAvatarAction(formData: FormData): Promise<AuthResult<string>> {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return { data: null, error: 'No autenticado', success: false }
+
+  const file = formData.get('file') as File
+  if (!file || !file.size) return { data: null, error: 'No se proporcionó archivo', success: false }
+
+  const service = new AuthService(supabase)
+  const result = await service.uploadAvatar(user.id, file)
+
+  if (result.success) {
+    revalidatePath('/panel/perfil')
+    revalidatePath('/panel')
+  }
+
+  return result
+}
+
 export async function changePasswordAction(
   _prevState: AuthResult,
   formData: FormData,
