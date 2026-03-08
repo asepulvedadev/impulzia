@@ -58,9 +58,10 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Autenticado → no puede volver a login/signup
+  // Autenticado → no puede volver a login/signup ni a la landing
   const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup')
-  if (isAuthRoute && user) {
+  const isLanding = pathname === '/'
+  if ((isAuthRoute || isLanding) && user) {
     return NextResponse.redirect(new URL('/panel', request.url))
   }
 
