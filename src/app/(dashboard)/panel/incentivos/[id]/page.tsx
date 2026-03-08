@@ -57,8 +57,8 @@ export default async function IncentiveDetailPage({ params }: Props) {
         >
           <ChevronLeft size={18} />
         </Link>
-        <div>
-          <h1 className="font-heading text-xl font-bold text-white truncate max-w-xs">
+        <div className="min-w-0">
+          <h1 className="font-heading text-xl font-bold text-white truncate">
             {incentive.title}
           </h1>
           <p className="text-muted text-sm capitalize">

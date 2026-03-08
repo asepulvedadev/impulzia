@@ -48,7 +48,7 @@ export default async function IncentivosPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-heading text-2xl font-bold text-white">Mis Incentivos</h1>
           <p className="text-muted text-sm mt-1">
@@ -56,10 +56,10 @@ export default async function IncentivosPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" asChild>
+          <Button variant="outline" asChild className="flex-1 sm:flex-none">
             <Link href="/panel/incentivos/validar">Validar canje</Link>
           </Button>
-          <Button asChild disabled={atLimit}>
+          <Button asChild disabled={atLimit} className="flex-1 sm:flex-none">
             <Link href="/panel/incentivos/nuevo">
               <Plus size={16} />
               Crear incentivo

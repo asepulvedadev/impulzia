@@ -214,7 +214,7 @@ export function IncentiveForm({ onSubmit, initialValues, mode = 'create' }: Ince
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-muted mb-1 block">Compra mínima ($)</label>
               <Input
@@ -237,7 +237,7 @@ export function IncentiveForm({ onSubmit, initialValues, mode = 'create' }: Ince
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-muted mb-1 block">Código personalizado</label>
               <Input
@@ -288,7 +288,7 @@ export function IncentiveForm({ onSubmit, initialValues, mode = 'create' }: Ince
             </div>
             <div className="flex justify-between">
               <span className="text-muted">Título</span>
-              <span className="text-white text-right max-w-48 truncate">{form.title}</span>
+              <span className="text-white text-right max-w-[60%] truncate">{form.title}</span>
             </div>
             {form.discount_value && (
               <div className="flex justify-between">
