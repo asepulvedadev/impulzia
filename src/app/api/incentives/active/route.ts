@@ -20,10 +20,7 @@ export async function GET(req: NextRequest) {
 
   const parsed = incentiveFiltersSchema.safeParse(rawFilters)
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.issues[0]?.message },
-      { status: 400 },
-    )
+    return NextResponse.json({ error: parsed.error.issues[0]?.message }, { status: 400 })
   }
 
   const supabase = await createClient()

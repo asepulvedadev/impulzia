@@ -34,7 +34,9 @@ export default async function IncentiveDetailPage({ params }: Props) {
   const { data: redemptions } = await service.getRedemptionsByBusiness(incentive.business_id, 30)
 
   // Wrapper to satisfy void return type for form
-  async function updateAction(data: unknown): Promise<{ success: boolean; error?: string | null; data?: Incentive | null }> {
+  async function updateAction(
+    data: unknown,
+  ): Promise<{ success: boolean; error?: string | null; data?: Incentive | null }> {
     'use server'
     return updateIncentiveAction(id, data)
   }
@@ -59,7 +61,9 @@ export default async function IncentiveDetailPage({ params }: Props) {
           <h1 className="font-heading text-xl font-bold text-white truncate max-w-xs">
             {incentive.title}
           </h1>
-          <p className="text-muted text-sm capitalize">{incentive.type} · {incentive.status}</p>
+          <p className="text-muted text-sm capitalize">
+            {incentive.type} · {incentive.status}
+          </p>
         </div>
       </div>
 

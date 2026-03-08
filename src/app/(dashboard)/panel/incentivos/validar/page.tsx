@@ -23,7 +23,9 @@ export default async function ValidarCanjePage() {
         </Link>
         <div>
           <h1 className="font-heading text-xl font-bold text-white">Validar Canje</h1>
-          <p className="text-muted text-sm">Confirma el código del cliente para aplicar el descuento</p>
+          <p className="text-muted text-sm">
+            Confirma el código del cliente para aplicar el descuento
+          </p>
         </div>
       </div>
 

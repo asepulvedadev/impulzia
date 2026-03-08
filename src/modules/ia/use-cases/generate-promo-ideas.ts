@@ -68,7 +68,11 @@ export async function generatePromoIdeas(
   })
 
   try {
-    const aiResult = await generateText({ prompt, systemPrompt: BASE_SYSTEM_PROMPT, maxTokens: 2048 })
+    const aiResult = await generateText({
+      prompt,
+      systemPrompt: BASE_SYSTEM_PROMPT,
+      maxTokens: 2048,
+    })
 
     await genService.updateOutput(generationId, {
       outputText: aiResult.text,

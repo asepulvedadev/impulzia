@@ -10,10 +10,16 @@ interface DescriptionGeneratorClientProps {
   businessId: string
 }
 
-export function DescriptionGeneratorClient({ templates, businessId }: DescriptionGeneratorClientProps) {
+export function DescriptionGeneratorClient({
+  templates,
+  businessId,
+}: DescriptionGeneratorClientProps) {
   const [isGenerating, setIsGenerating] = React.useState(false)
   const [streamingText, setStreamingText] = React.useState('')
-  const [generationResult, setGenerationResult] = React.useState<Pick<AiGeneration, 'id' | 'tool' | 'output_text' | 'is_favorite' | 'rating' | 'created_at'> | null>(null)
+  const [generationResult, setGenerationResult] = React.useState<Pick<
+    AiGeneration,
+    'id' | 'tool' | 'output_text' | 'is_favorite' | 'rating' | 'created_at'
+  > | null>(null)
   const [error, setError] = React.useState<string | null>(null)
 
   const handleGenerate = async (params: {
@@ -36,7 +42,7 @@ export function DescriptionGeneratorClient({ templates, businessId }: Descriptio
       })
 
       if (!response.ok) {
-        const data = await response.json() as { error?: string }
+        const data = (await response.json()) as { error?: string }
         setError(data.error ?? 'Error generando descripción')
         return
       }
@@ -53,16 +59,35 @@ export function DescriptionGeneratorClient({ templates, businessId }: Descriptio
         for (const line of decoder.decode(value).split('\n')) {
           if (line.startsWith('data: ')) {
             try {
-              const data = JSON.parse(line.slice(6)) as { chunk?: string; generationId?: string; error?: string }
-              if (data.chunk) { fullText += data.chunk; setStreamingText(fullText) }
+              const data = JSON.parse(line.slice(6)) as {
+                chunk?: string
+                generationId?: string
+                error?: string
+              }
+              if (data.chunk) {
+                fullText += data.chunk
+                setStreamingText(fullText)
+              }
               if (data.generationId) generationId = data.generationId
-              if (data.error) { setError(data.error); break }
-            } catch { /* ignore */ }
+              if (data.error) {
+                setError(data.error)
+                break
+              }
+            } catch {
+              /* ignore */
+            }
           }
         }
       }
 
-      setGenerationResult({ id: generationId, tool: 'description_generator', output_text: fullText, is_favorite: false, rating: null, created_at: new Date().toISOString() })
+      setGenerationResult({
+        id: generationId,
+        tool: 'description_generator',
+        output_text: fullText,
+        is_favorite: false,
+        rating: null,
+        created_at: new Date().toISOString(),
+      })
       setStreamingText('')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error de conexión')
@@ -74,13 +99,31 @@ export function DescriptionGeneratorClient({ templates, businessId }: Descriptio
   return (
     <div className="grid lg:grid-cols-2 gap-6">
       <div className="rounded-xl border border-white/10 bg-slate-800/60 p-5">
-        <DescriptionGeneratorForm templates={templates} businessId={businessId} onGenerate={handleGenerate} isGenerating={isGenerating} />
+        <DescriptionGeneratorForm
+          templates={templates}
+          businessId={businessId}
+          onGenerate={handleGenerate}
+          isGenerating={isGenerating}
+        />
       </div>
       <div className="space-y-4">
-        {error && <div className="rounded-lg bg-rose-900/40 border border-rose-700/50 p-3 text-sm text-rose-300">{error}</div>}
+        {error && (
+          <div className="rounded-lg bg-rose-900/40 border border-rose-700/50 p-3 text-sm text-rose-300">
+            {error}
+          </div>
+        )}
         {(isGenerating || generationResult) && (
           <AiOutputCard
-            generation={generationResult ?? { id: 'streaming', tool: 'description_generator', output_text: null, is_favorite: false, rating: null, created_at: new Date().toISOString() }}
+            generation={
+              generationResult ?? {
+                id: 'streaming',
+                tool: 'description_generator',
+                output_text: null,
+                is_favorite: false,
+                rating: null,
+                created_at: new Date().toISOString(),
+              }
+            }
             isStreaming={isGenerating}
             streamingText={streamingText || undefined}
           />

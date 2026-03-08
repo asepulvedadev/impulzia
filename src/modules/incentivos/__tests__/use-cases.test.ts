@@ -7,15 +7,31 @@ import { confirmRedemption } from '../use-cases/confirm-redemption'
 function buildChain(terminal: unknown) {
   const chain: Record<string, unknown> = {}
   const methods = [
-    'from', 'select', 'insert', 'update', 'delete', 'eq', 'in',
-    'gt', 'or', 'single', 'maybeSingle', 'limit', 'order', 'contains', 'range', 'not',
+    'from',
+    'select',
+    'insert',
+    'update',
+    'delete',
+    'eq',
+    'in',
+    'gt',
+    'or',
+    'single',
+    'maybeSingle',
+    'limit',
+    'order',
+    'contains',
+    'range',
+    'not',
   ]
   for (const m of methods) {
     chain[m] = vi.fn().mockReturnValue(chain)
   }
-  chain.then = vi.fn().mockImplementation(
-    (resolve: (val: unknown) => void) => Promise.resolve(terminal).then(resolve),
-  )
+  chain.then = vi
+    .fn()
+    .mockImplementation((resolve: (val: unknown) => void) =>
+      Promise.resolve(terminal).then(resolve),
+    )
   return chain
 }
 
@@ -43,12 +59,17 @@ describe('createIncentive use-case', () => {
   it('rejects when plan limit reached', async () => {
     // Count chain returns 2 (free plan limit is 2)
     const chain = buildChain({ count: 2, error: null })
-    const supabase = { from: vi.fn().mockReturnValue(chain), rpc: vi.fn(), storage: { from: vi.fn() } }
+    const supabase = {
+      from: vi.fn().mockReturnValue(chain),
+      rpc: vi.fn(),
+      storage: { from: vi.fn() },
+    }
     // Override chain.then for count query
-    chain.then = vi.fn().mockImplementation(
-      (resolve: (val: unknown) => void) =>
+    chain.then = vi
+      .fn()
+      .mockImplementation((resolve: (val: unknown) => void) =>
         Promise.resolve({ count: 2, error: null }).then(resolve),
-    )
+      )
 
     const result = await createIncentive(supabase as never, 'u1', 'b1', 'free', {
       title: 'Descuento especial',
@@ -65,11 +86,16 @@ describe('createIncentive use-case', () => {
     const created = { id: 'i1', title: 'Descuento especial', status: 'draft' }
     const chain = buildChain({ data: created, error: null })
     // Count returns 0
-    chain.then = vi.fn().mockImplementation(
-      (resolve: (val: unknown) => void) =>
+    chain.then = vi
+      .fn()
+      .mockImplementation((resolve: (val: unknown) => void) =>
         Promise.resolve({ data: created, error: null, count: 0 }).then(resolve),
-    )
-    const supabase = { from: vi.fn().mockReturnValue(chain), rpc: vi.fn(), storage: { from: vi.fn() } }
+      )
+    const supabase = {
+      from: vi.fn().mockReturnValue(chain),
+      rpc: vi.fn(),
+      storage: { from: vi.fn() },
+    }
 
     const result = await createIncentive(supabase as never, 'u1', 'b1', 'free', {
       title: 'Descuento especial',
@@ -115,7 +141,11 @@ describe('confirmRedemption use-case', () => {
   it('confirms valid token', async () => {
     const confirmed = { id: 'r1', status: 'confirmed', redemption_token: 'ABCD1234' }
     const chain = buildChain({ data: confirmed, error: null })
-    const supabase = { from: vi.fn().mockReturnValue(chain), rpc: vi.fn(), storage: { from: vi.fn() } }
+    const supabase = {
+      from: vi.fn().mockReturnValue(chain),
+      rpc: vi.fn(),
+      storage: { from: vi.fn() },
+    }
 
     const result = await confirmRedemption(supabase as never, 'owner-1', { token: 'ABCD1234' })
     expect(result.success).toBe(true)

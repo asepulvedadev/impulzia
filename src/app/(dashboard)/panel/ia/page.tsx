@@ -36,7 +36,9 @@ export default async function IACenterPage() {
         </div>
         <div>
           <h1 className="text-xl font-bold text-white">Centro IA</h1>
-          <p className="text-sm text-slate-400">Herramientas inteligentes para hacer crecer {business.name}</p>
+          <p className="text-sm text-slate-400">
+            Herramientas inteligentes para hacer crecer {business.name}
+          </p>
         </div>
       </div>
 

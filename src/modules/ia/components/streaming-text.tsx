@@ -10,7 +10,12 @@ interface StreamingTextProps {
 
 export function StreamingText({ text, isStreaming = false, className }: StreamingTextProps) {
   return (
-    <div className={cn('relative font-mono text-sm text-slate-200 whitespace-pre-wrap leading-relaxed', className)}>
+    <div
+      className={cn(
+        'relative font-mono text-sm text-slate-200 whitespace-pre-wrap leading-relaxed',
+        className,
+      )}
+    >
       {text}
       {isStreaming && (
         <span className="inline-block w-0.5 h-4 bg-brand-primary-400 ml-0.5 align-middle animate-pulse" />

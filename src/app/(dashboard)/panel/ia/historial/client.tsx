@@ -13,9 +13,7 @@ export function AiHistoryClient({ initialGenerations }: AiHistoryClientProps) {
   const [generations, setGenerations] = React.useState(initialGenerations)
 
   const handleToggleFavorite = async (id: string, current: boolean) => {
-    setGenerations((prev) =>
-      prev.map((g) => (g.id === id ? { ...g, is_favorite: !current } : g)),
-    )
+    setGenerations((prev) => prev.map((g) => (g.id === id ? { ...g, is_favorite: !current } : g)))
     await toggleFavoriteAction(id, !current)
   }
 

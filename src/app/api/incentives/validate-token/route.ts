@@ -34,10 +34,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   const parsed = validateTokenSchema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.issues[0]?.message },
-      { status: 400 },
-    )
+    return NextResponse.json({ error: parsed.error.issues[0]?.message }, { status: 400 })
   }
 
   const service = new IncentiveService(supabase)

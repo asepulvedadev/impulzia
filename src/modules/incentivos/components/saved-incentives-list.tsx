@@ -11,11 +11,7 @@ interface SavedIncentivesListProps {
   onRedeem?: (id: string) => void
 }
 
-export function SavedIncentivesList({
-  incentives,
-  onUnsave,
-  onRedeem,
-}: SavedIncentivesListProps) {
+export function SavedIncentivesList({ incentives, onUnsave, onRedeem }: SavedIncentivesListProps) {
   if (incentives.length === 0) {
     return (
       <div className="text-center py-16">

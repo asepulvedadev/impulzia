@@ -29,10 +29,7 @@ const TYPE_CONFIG = {
   },
 }
 
-function formatDiscount(
-  discountType: string | null,
-  discountValue: number | null,
-): string | null {
+function formatDiscount(discountType: string | null, discountValue: number | null): string | null {
   if (!discountType) return null
   if (discountType === 'percentage' && discountValue) return `-${discountValue}%`
   if (discountType === 'fixed_amount' && discountValue)
@@ -73,7 +70,8 @@ export function IncentiveCard({
   const TypeIcon = typeConfig.icon
   const discountLabel = formatDiscount(incentive.discount_type, incentive.discount_value)
   const expiryLabel = timeUntilExpiry(incentive.end_date)
-  const isExpiringSoon = expiryLabel && expiryLabel.includes('hoy') || expiryLabel?.includes('mañana')
+  const isExpiringSoon =
+    (expiryLabel && expiryLabel.includes('hoy')) || expiryLabel?.includes('mañana')
   const usagePercent =
     incentive.max_uses && incentive.current_uses
       ? Math.round((incentive.current_uses / incentive.max_uses) * 100)
@@ -181,11 +179,7 @@ export function IncentiveCard({
         )}
 
         {onRedeem && (
-          <Button
-            size="sm"
-            className="w-full mt-2"
-            onClick={() => onRedeem(incentive.id)}
-          >
+          <Button size="sm" className="w-full mt-2" onClick={() => onRedeem(incentive.id)}>
             Canjear ahora
           </Button>
         )}

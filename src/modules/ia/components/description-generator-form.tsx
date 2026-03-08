@@ -38,7 +38,13 @@ export function DescriptionGeneratorForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onGenerate({ templateId, length, keywords, highlight, tone: selectedTpl?.name ?? 'profesional' })
+    onGenerate({
+      templateId,
+      length,
+      keywords,
+      highlight,
+      tone: selectedTpl?.name ?? 'profesional',
+    })
   }
 
   return (
@@ -66,7 +72,9 @@ export function DescriptionGeneratorForm({
               />
               <div>
                 <p className="text-sm font-medium text-white">{tpl.name}</p>
-                {tpl.description && <p className="text-xs text-slate-400 mt-0.5">{tpl.description}</p>}
+                {tpl.description && (
+                  <p className="text-xs text-slate-400 mt-0.5">{tpl.description}</p>
+                )}
               </div>
             </label>
           ))}
@@ -108,7 +116,9 @@ export function DescriptionGeneratorForm({
       </div>
 
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-slate-300">¿Qué nos hace únicos? (opcional)</label>
+        <label className="text-xs font-medium text-slate-300">
+          ¿Qué nos hace únicos? (opcional)
+        </label>
         <textarea
           value={highlight}
           onChange={(e) => setHighlight(e.target.value)}

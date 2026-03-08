@@ -73,7 +73,9 @@ export function AiHistoryList({
                   onClick={() => onToggleFavorite(gen.id, gen.is_favorite)}
                   className={cn(
                     'p-1.5 rounded-lg transition-colors',
-                    gen.is_favorite ? 'text-yellow-400' : 'text-slate-400 hover:text-yellow-400 hover:bg-slate-700',
+                    gen.is_favorite
+                      ? 'text-yellow-400'
+                      : 'text-slate-400 hover:text-yellow-400 hover:bg-slate-700',
                   )}
                 >
                   <Star className={cn('w-3.5 h-3.5', gen.is_favorite && 'fill-current')} />

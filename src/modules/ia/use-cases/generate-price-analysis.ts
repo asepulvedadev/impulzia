@@ -23,7 +23,11 @@ export async function generatePriceAnalysis(
   const genService = new AiGenerationService(supabase)
   const usageService = new AiUsageService(supabase)
 
-  const limitCheck = await usageService.checkLimit(context.businessId, 'price_assistant', context.tier)
+  const limitCheck = await usageService.checkLimit(
+    context.businessId,
+    'price_assistant',
+    context.tier,
+  )
   if (!limitCheck.canGenerate) {
     return {
       data: null,
@@ -54,7 +58,11 @@ export async function generatePriceAnalysis(
   })
 
   try {
-    const aiResult = await generateText({ prompt, systemPrompt: BASE_SYSTEM_PROMPT, maxTokens: 1500 })
+    const aiResult = await generateText({
+      prompt,
+      systemPrompt: BASE_SYSTEM_PROMPT,
+      maxTokens: 1500,
+    })
 
     await genService.updateOutput(generationId, {
       outputText: aiResult.text,

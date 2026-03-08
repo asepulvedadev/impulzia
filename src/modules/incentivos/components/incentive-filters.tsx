@@ -18,11 +18,7 @@ const TYPES = [
   { value: 'reward' as const, label: 'Premios', icon: Gift },
 ]
 
-export function IncentiveFilters({
-  activeType,
-  onTypeChange,
-  className,
-}: IncentiveFiltersProps) {
+export function IncentiveFilters({ activeType, onTypeChange, className }: IncentiveFiltersProps) {
   return (
     <div className={cn('flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide', className)}>
       {TYPES.map(({ value, label, icon: Icon }) => (

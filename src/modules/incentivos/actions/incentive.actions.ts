@@ -26,7 +26,10 @@ async function getAuthContext() {
   return { supabase, user, error: null }
 }
 
-async function getBusinessContext(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
+async function getBusinessContext(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+) {
   const { data: business } = await supabase
     .from('businesses')
     .select('id, subscription_tier')
@@ -120,9 +123,14 @@ export async function confirmRedemptionAction(token: string): Promise<ServiceRes
 // User actions
 // ─────────────────────────────────────────────────────────
 
-export async function redeemIncentiveAction(
-  incentiveId: string,
-): Promise<ServiceResult<{ redemption_id: string; token: string; incentive_title: string; expires_at: string }>> {
+export async function redeemIncentiveAction(incentiveId: string): Promise<
+  ServiceResult<{
+    redemption_id: string
+    token: string
+    incentive_title: string
+    expires_at: string
+  }>
+> {
   const { supabase, user, error } = await getAuthContext()
   if (!user) return { data: null, error: error ?? 'No autenticado', success: false }
 

@@ -277,7 +277,9 @@ export async function rateGenerationAction(
   }
 
   const supabase = await createServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) return { data: null, error: 'No autenticado', success: false }
 
   const { AiGenerationService } = await import('../services/ai-generation.service')

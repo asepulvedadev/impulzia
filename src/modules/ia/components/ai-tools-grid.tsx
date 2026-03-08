@@ -70,9 +70,10 @@ export function AiToolsGrid({ usageSummaries = [] }: AiToolsGridProps) {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {TOOLS.map(({ tool, href, icon: Icon, description, color }) => {
         const usage = getUsage(tool)
-        const pct = usage && !usage.isUnlimited && usage.limit > 0
-          ? Math.round((usage.usageCount / usage.limit) * 100)
-          : 0
+        const pct =
+          usage && !usage.isUnlimited && usage.limit > 0
+            ? Math.round((usage.usageCount / usage.limit) * 100)
+            : 0
         const isAtLimit = usage && !usage.isUnlimited && usage.remaining === 0
 
         return (
@@ -84,7 +85,12 @@ export function AiToolsGrid({ usageSummaries = [] }: AiToolsGridProps) {
               isAtLimit && 'opacity-60 cursor-not-allowed pointer-events-none',
             )}
           >
-            <div className={cn('w-10 h-10 rounded-lg bg-gradient-to-br flex items-center justify-center', color)}>
+            <div
+              className={cn(
+                'w-10 h-10 rounded-lg bg-gradient-to-br flex items-center justify-center',
+                color,
+              )}
+            >
               <Icon className="w-5 h-5 text-white" />
             </div>
 
@@ -100,12 +106,21 @@ export function AiToolsGrid({ usageSummaries = [] }: AiToolsGridProps) {
                 ) : (
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs text-slate-400">
-                      <span>{usage.usageCount} / {usage.limit} este mes</span>
+                      <span>
+                        {usage.usageCount} / {usage.limit} este mes
+                      </span>
                       {isAtLimit && <span className="text-rose-400">Límite alcanzado</span>}
                     </div>
                     <div className="h-1 bg-slate-700 rounded-full overflow-hidden">
                       <div
-                        className={cn('h-full rounded-full transition-all', pct >= 100 ? 'bg-rose-500' : pct >= 80 ? 'bg-brand-accent-500' : 'bg-brand-success-500')}
+                        className={cn(
+                          'h-full rounded-full transition-all',
+                          pct >= 100
+                            ? 'bg-rose-500'
+                            : pct >= 80
+                              ? 'bg-brand-accent-500'
+                              : 'bg-brand-success-500',
+                        )}
                         style={{ width: `${Math.min(pct, 100)}%` }}
                       />
                     </div>

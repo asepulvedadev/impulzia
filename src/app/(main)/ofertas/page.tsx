@@ -1,7 +1,10 @@
 'use client'
 
 import * as React from 'react'
-import { IncentiveGrid, IncentiveGridSkeleton } from '@/modules/incentivos/components/incentive-grid'
+import {
+  IncentiveGrid,
+  IncentiveGridSkeleton,
+} from '@/modules/incentivos/components/incentive-grid'
 import { IncentiveFilters } from '@/modules/incentivos/components/incentive-filters'
 import { IncentiveDetailModal } from '@/modules/incentivos/components/incentive-detail-modal'
 import { RedemptionQR } from '@/modules/incentivos/components/redemption-qr'

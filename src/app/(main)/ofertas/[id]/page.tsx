@@ -30,10 +30,7 @@ export default async function OfertaDetailPage({ params }: Props) {
           Volver a ofertas
         </Link>
 
-        <IncentiveCard
-          incentive={incentive as IncentiveWithBusiness}
-          compact={false}
-        />
+        <IncentiveCard incentive={incentive as IncentiveWithBusiness} compact={false} />
 
         {incentive.terms && (
           <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">

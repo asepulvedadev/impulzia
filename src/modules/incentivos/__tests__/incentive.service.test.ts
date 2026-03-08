@@ -7,17 +7,32 @@ import { IncentiveService } from '../services/incentive.service'
 function buildChain(terminal: { data?: unknown; error?: unknown; count?: number | null }) {
   const chain: Record<string, unknown> = {}
   const methods = [
-    'from', 'select', 'insert', 'update', 'delete', 'eq', 'in',
-    'gt', 'or', 'contains', 'limit', 'order', 'range', 'single',
-    'maybeSingle', 'not',
+    'from',
+    'select',
+    'insert',
+    'update',
+    'delete',
+    'eq',
+    'in',
+    'gt',
+    'or',
+    'contains',
+    'limit',
+    'order',
+    'range',
+    'single',
+    'maybeSingle',
+    'not',
   ]
   for (const m of methods) {
     chain[m] = vi.fn().mockReturnValue(chain)
   }
   // Make thenable for `await chain`
-  chain.then = vi.fn().mockImplementation(
-    (resolve: (val: unknown) => void) => Promise.resolve(terminal).then(resolve),
-  )
+  chain.then = vi
+    .fn()
+    .mockImplementation((resolve: (val: unknown) => void) =>
+      Promise.resolve(terminal).then(resolve),
+    )
   return chain
 }
 
@@ -29,7 +44,9 @@ function makeMockSupabase(terminal: { data?: unknown; error?: unknown; count?: n
     storage: {
       from: vi.fn().mockReturnValue({
         upload: vi.fn().mockResolvedValue({ error: null }),
-        getPublicUrl: vi.fn().mockReturnValue({ data: { publicUrl: 'https://cdn.example.com/img.jpg' } }),
+        getPublicUrl: vi
+          .fn()
+          .mockReturnValue({ data: { publicUrl: 'https://cdn.example.com/img.jpg' } }),
       }),
     },
   }
@@ -188,10 +205,11 @@ describe('IncentiveService.getActiveIncentiveCount', () => {
   it('returns count of active incentives', async () => {
     const { mockSupabase, chain } = makeMockSupabase({ count: 3, error: null })
     // Override chain for count query
-    chain.then = vi.fn().mockImplementation(
-      (resolve: (val: unknown) => void) =>
+    chain.then = vi
+      .fn()
+      .mockImplementation((resolve: (val: unknown) => void) =>
         Promise.resolve({ count: 3, error: null }).then(resolve),
-    )
+      )
     const service = new IncentiveService(mockSupabase as never)
 
     const count = await service.getActiveIncentiveCount('biz-1')
@@ -201,10 +219,11 @@ describe('IncentiveService.getActiveIncentiveCount', () => {
 
   it('returns 0 on error', async () => {
     const { mockSupabase, chain } = makeMockSupabase({ count: null, error: { message: 'err' } })
-    chain.then = vi.fn().mockImplementation(
-      (resolve: (val: unknown) => void) =>
+    chain.then = vi
+      .fn()
+      .mockImplementation((resolve: (val: unknown) => void) =>
         Promise.resolve({ count: null, error: { message: 'err' } }).then(resolve),
-    )
+      )
     const service = new IncentiveService(mockSupabase as never)
 
     const count = await service.getActiveIncentiveCount('biz-1')

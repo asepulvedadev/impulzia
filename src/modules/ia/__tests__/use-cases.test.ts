@@ -64,7 +64,9 @@ describe('AiGenerationService - business logic', () => {
 
   it('rateGeneration succeeds for valid rating', async () => {
     const chain = makeChain({ id: 'gen-001', rating: 4 })
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiGenerationService>[0]
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiGenerationService
+    >[0]
     const service = new AiGenerationService(supabase)
     const result = await service.rateGeneration('gen-001', 4)
     expect(result.success).toBe(true)
@@ -79,7 +81,9 @@ describe('AiGenerationService - business logic', () => {
 describe('AiUsageService - checkLimit', () => {
   it('free tier: canGenerate=true when 0 usage', async () => {
     const chain = makeChain(null) // no record = 0 usage
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiUsageService>[0]
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiUsageService
+    >[0]
     const service = new AiUsageService(supabase)
     const result = await service.checkLimit('biz-001', 'post_generator', 'free')
     expect(result.canGenerate).toBe(true)
@@ -90,7 +94,9 @@ describe('AiUsageService - checkLimit', () => {
 
   it('free tier: canGenerate=false at limit (10)', async () => {
     const chain = makeChain({ usage_count: 10 })
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiUsageService>[0]
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiUsageService
+    >[0]
     const service = new AiUsageService(supabase)
     const result = await service.checkLimit('biz-001', 'post_generator', 'free')
     expect(result.canGenerate).toBe(false)
@@ -99,7 +105,9 @@ describe('AiUsageService - checkLimit', () => {
 
   it('premium: unlimited always canGenerate=true', async () => {
     const chain = makeChain({ usage_count: 999 })
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiUsageService>[0]
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiUsageService
+    >[0]
     const service = new AiUsageService(supabase)
     const result = await service.checkLimit('biz-001', 'post_generator', 'premium')
     expect(result.canGenerate).toBe(true)
@@ -108,7 +116,9 @@ describe('AiUsageService - checkLimit', () => {
 
   it('basic tier: canGenerate=true with 29/30 usage', async () => {
     const chain = makeChain({ usage_count: 29 })
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiUsageService>[0]
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiUsageService
+    >[0]
     const service = new AiUsageService(supabase)
     const result = await service.checkLimit('biz-001', 'post_generator', 'basic')
     expect(result.canGenerate).toBe(true)
@@ -118,14 +128,18 @@ describe('AiUsageService - checkLimit', () => {
   it('different tools have different limits on same tier', async () => {
     // photo_enhancer free limit = 5
     const chain5 = makeChain({ usage_count: 5 })
-    const supabase5 = { from: vi.fn().mockReturnValue(chain5) } as unknown as Parameters<typeof AiUsageService>[0]
+    const supabase5 = { from: vi.fn().mockReturnValue(chain5) } as unknown as Parameters<
+      typeof AiUsageService
+    >[0]
     const service5 = new AiUsageService(supabase5)
     const result5 = await service5.checkLimit('biz-001', 'photo_enhancer', 'free')
     expect(result5.canGenerate).toBe(false) // 5/5 = at limit
 
     // post_generator free limit = 10
     const chain10 = makeChain({ usage_count: 5 })
-    const supabase10 = { from: vi.fn().mockReturnValue(chain10) } as unknown as Parameters<typeof AiUsageService>[0]
+    const supabase10 = { from: vi.fn().mockReturnValue(chain10) } as unknown as Parameters<
+      typeof AiUsageService
+    >[0]
     const service10 = new AiUsageService(supabase10)
     const result10 = await service10.checkLimit('biz-001', 'post_generator', 'free')
     expect(result10.canGenerate).toBe(true) // 5/10 = still has capacity
@@ -138,12 +152,14 @@ describe('AiUsageService - checkLimit', () => {
 
 describe('AiTemplatesService', () => {
   it('getByTool queries correct table', async () => {
-    const templates = [
-      { id: 'tpl-001', name: 'Test', tool: 'post_generator', category_slug: null },
-    ]
+    const templates = [{ id: 'tpl-001', name: 'Test', tool: 'post_generator', category_slug: null }]
     const chain = makeChain(templates)
-    chain.then = vi.fn((resolve: (v: unknown) => unknown) => resolve({ data: templates, error: null }))
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiTemplatesService>[0]
+    chain.then = vi.fn((resolve: (v: unknown) => unknown) =>
+      resolve({ data: templates, error: null }),
+    )
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiTemplatesService
+    >[0]
     const service = new AiTemplatesService(supabase)
     const result = await service.getByTool('post_generator')
     expect(supabase.from).toHaveBeenCalledWith('ai_templates')
@@ -153,7 +169,9 @@ describe('AiTemplatesService', () => {
   it('getById returns template on success', async () => {
     const template = { id: 'tpl-001', name: 'Promoción del día' }
     const chain = makeChain(template)
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiTemplatesService>[0]
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiTemplatesService
+    >[0]
     const service = new AiTemplatesService(supabase)
     const result = await service.getById('tpl-001')
     expect(result.success).toBe(true)
@@ -162,7 +180,9 @@ describe('AiTemplatesService', () => {
 
   it('getById returns error when not found', async () => {
     const chain = makeChain(null, { message: 'Row not found' })
-    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<typeof AiTemplatesService>[0]
+    const supabase = { from: vi.fn().mockReturnValue(chain) } as unknown as Parameters<
+      typeof AiTemplatesService
+    >[0]
     const service = new AiTemplatesService(supabase)
     const result = await service.getById('nonexistent')
     expect(result.success).toBe(false)

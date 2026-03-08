@@ -23,7 +23,11 @@ export async function generateReviewResponse(
   const genService = new AiGenerationService(supabase)
   const usageService = new AiUsageService(supabase)
 
-  const limitCheck = await usageService.checkLimit(context.businessId, 'review_responder', context.tier)
+  const limitCheck = await usageService.checkLimit(
+    context.businessId,
+    'review_responder',
+    context.tier,
+  )
   if (!limitCheck.canGenerate) {
     return {
       data: null,

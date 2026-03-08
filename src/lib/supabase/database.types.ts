@@ -646,7 +646,13 @@ export interface Database {
           id: string
           business_id: string
           owner_id: string
-          tool: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           status: 'pending' | 'processing' | 'completed' | 'failed'
           input_data: Json
           input_image_url: string | null
@@ -665,7 +671,13 @@ export interface Database {
           id?: string
           business_id: string
           owner_id: string
-          tool: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           status?: 'pending' | 'processing' | 'completed' | 'failed'
           input_data?: Json
           input_image_url?: string | null
@@ -684,7 +696,13 @@ export interface Database {
           id?: string
           business_id?: string
           owner_id?: string
-          tool?: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool?:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           status?: 'pending' | 'processing' | 'completed' | 'failed'
           input_data?: Json
           input_image_url?: string | null
@@ -722,7 +740,13 @@ export interface Database {
           business_id: string
           owner_id: string
           month: string
-          tool: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           usage_count: number
         }
         Insert: {
@@ -730,7 +754,13 @@ export interface Database {
           business_id: string
           owner_id: string
           month: string
-          tool: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           usage_count?: number
         }
         Update: {
@@ -738,7 +768,13 @@ export interface Database {
           business_id?: string
           owner_id?: string
           month?: string
-          tool?: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool?:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           usage_count?: number
         }
         Relationships: [
@@ -761,7 +797,13 @@ export interface Database {
       ai_templates: {
         Row: {
           id: string
-          tool: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           category_slug: string | null
           name: string
           description: string | null
@@ -774,7 +816,13 @@ export interface Database {
         }
         Insert: {
           id?: string
-          tool: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           category_slug?: string | null
           name: string
           description?: string | null
@@ -787,7 +835,13 @@ export interface Database {
         }
         Update: {
           id?: string
-          tool?: 'post_generator' | 'photo_enhancer' | 'promo_ideas' | 'description_generator' | 'review_responder' | 'price_assistant'
+          tool?:
+            | 'post_generator'
+            | 'photo_enhancer'
+            | 'promo_ideas'
+            | 'description_generator'
+            | 'review_responder'
+            | 'price_assistant'
           category_slug?: string | null
           name?: string
           description?: string | null

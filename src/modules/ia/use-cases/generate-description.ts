@@ -4,7 +4,11 @@ import { AiGenerationService } from '../services/ai-generation.service'
 import { AiUsageService } from '../services/ai-usage.service'
 import { AiTemplatesService } from '../services/ai-templates.service'
 import { generateText } from '@/lib/ai/anthropic-client'
-import { BASE_SYSTEM_PROMPT, buildDescriptionGeneratorPrompt, fillTemplate } from '@/lib/ai/prompt-builder'
+import {
+  BASE_SYSTEM_PROMPT,
+  buildDescriptionGeneratorPrompt,
+  fillTemplate,
+} from '@/lib/ai/prompt-builder'
 import { getMonthKey } from '@/lib/ai/config'
 import type { ServiceResult, GenerateResult } from '../interfaces'
 import type { DescriptionGeneratorInput } from '../validations/ai.schema'
@@ -27,7 +31,11 @@ export async function generateDescription(
   const usageService = new AiUsageService(supabase)
   const tplService = new AiTemplatesService(supabase)
 
-  const limitCheck = await usageService.checkLimit(context.businessId, 'description_generator', context.tier)
+  const limitCheck = await usageService.checkLimit(
+    context.businessId,
+    'description_generator',
+    context.tier,
+  )
   if (!limitCheck.canGenerate) {
     return {
       data: null,

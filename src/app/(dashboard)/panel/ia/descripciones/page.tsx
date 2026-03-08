@@ -27,7 +27,9 @@ export default async function DescriptionGeneratorPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6 p-4">
       <div className="flex items-center gap-2">
-        <Link href="/panel/ia" className="text-slate-400 hover:text-white text-sm">← IA</Link>
+        <Link href="/panel/ia" className="text-slate-400 hover:text-white text-sm">
+          ← IA
+        </Link>
         <span className="text-slate-600">/</span>
         <h1 className="text-lg font-bold text-white flex items-center gap-2">
           <FileText className="w-5 h-5 text-brand-success-400" />

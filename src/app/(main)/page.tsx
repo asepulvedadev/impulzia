@@ -180,7 +180,9 @@ export default async function HomePage() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="font-heading text-2xl font-bold text-white">Ofertas Locales</h2>
-                <p className="text-muted text-sm mt-1">Descuentos y premios en negocios de Cúcuta</p>
+                <p className="text-muted text-sm mt-1">
+                  Descuentos y premios en negocios de Cúcuta
+                </p>
               </div>
               <Link
                 href="/ofertas"

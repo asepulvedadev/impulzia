@@ -20,7 +20,9 @@ export async function publishIncentive(
   if (!validated.success) {
     return {
       data: null,
-      error: validated.error.issues[0]?.message ?? 'El incentivo no cumple los requisitos para publicarse',
+      error:
+        validated.error.issues[0]?.message ??
+        'El incentivo no cumple los requisitos para publicarse',
       success: false,
     }
   }

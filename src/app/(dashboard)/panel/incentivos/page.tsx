@@ -70,8 +70,8 @@ export default async function IncentivosPage() {
 
       {atLimit && (
         <div className="rounded-xl bg-brand-warning-900/20 border border-brand-warning-500/30 p-4 text-sm text-brand-warning-300">
-          Has alcanzado el límite de <strong>{limit}</strong> incentivos activos en tu plan.
-          Pausa o elimina uno para crear otro, o mejora tu plan.
+          Has alcanzado el límite de <strong>{limit}</strong> incentivos activos en tu plan. Pausa o
+          elimina uno para crear otro, o mejora tu plan.
         </div>
       )}
 
@@ -94,11 +94,7 @@ export default async function IncentivosPage() {
       {incentives && incentives.length > 0 && (
         <div className="space-y-3">
           {(incentives as IncentiveWithStats[]).map((incentive) => (
-            <IncentiveCardOwner
-              key={incentive.id}
-              incentive={incentive}
-              onEdit={(id) => void id}
-            />
+            <IncentiveCardOwner key={incentive.id} incentive={incentive} onEdit={(id) => void id} />
           ))}
         </div>
       )}

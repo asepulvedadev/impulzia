@@ -65,11 +65,9 @@ export class QRService {
       for (let col = 0; col < cells; col++) {
         // Fixed finder patterns (top-left, top-right, bottom-left)
         const isFinder =
-          (row < 7 && col < 7) ||
-          (row < 7 && col >= cells - 7) ||
-          (row >= cells - 7 && col < 7)
+          (row < 7 && col < 7) || (row < 7 && col >= cells - 7) || (row >= cells - 7 && col < 7)
         // Data cells — pseudo-random from hash
-        const isData = !isFinder && ((hash * (row + 1) * (col + 1)) % 3 === 0)
+        const isData = !isFinder && (hash * (row + 1) * (col + 1)) % 3 === 0
 
         if (isFinder || isData) {
           innerCells.push(

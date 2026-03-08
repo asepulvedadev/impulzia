@@ -16,7 +16,10 @@ export default async function NuevoIncentivoPagina() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link href="/panel/incentivos" className="p-1.5 rounded-lg hover:bg-slate-800 text-muted hover:text-white transition-colors">
+        <Link
+          href="/panel/incentivos"
+          className="p-1.5 rounded-lg hover:bg-slate-800 text-muted hover:text-white transition-colors"
+        >
           <ChevronLeft size={18} />
         </Link>
         <div>

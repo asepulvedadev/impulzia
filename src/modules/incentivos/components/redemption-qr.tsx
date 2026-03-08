@@ -49,20 +49,24 @@ export function RedemptionQR({ token, incentiveTitle, expiresAt }: RedemptionQRP
 
       {/* Token */}
       <div className="flex items-center gap-2">
-        <span className="font-mono text-2xl font-bold tracking-widest text-white">
-          {token}
-        </span>
+        <span className="font-mono text-2xl font-bold tracking-widest text-white">{token}</span>
         <button
           onClick={handleCopy}
           className="text-muted hover:text-white transition-colors"
           aria-label="Copiar código"
         >
-          {copied ? <CheckCheck size={16} className="text-brand-success-400" /> : <Copy size={16} />}
+          {copied ? (
+            <CheckCheck size={16} className="text-brand-success-400" />
+          ) : (
+            <Copy size={16} />
+          )}
         </button>
       </div>
 
       {/* Expiry */}
-      <div className={`flex items-center gap-1.5 text-sm ${isExpired ? 'text-brand-error-400' : 'text-muted'}`}>
+      <div
+        className={`flex items-center gap-1.5 text-sm ${isExpired ? 'text-brand-error-400' : 'text-muted'}`}
+      >
         <Clock size={14} />
         <span>{isExpired ? 'Este código ha expirado' : `Válido por: ${timeLeft}`}</span>
       </div>

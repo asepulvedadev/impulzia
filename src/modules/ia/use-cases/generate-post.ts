@@ -27,7 +27,11 @@ export async function generatePost(
   const tplService = new AiTemplatesService(supabase)
 
   // Check usage limit
-  const limitCheck = await usageService.checkLimit(context.businessId, 'post_generator', context.tier)
+  const limitCheck = await usageService.checkLimit(
+    context.businessId,
+    'post_generator',
+    context.tier,
+  )
   if (!limitCheck.canGenerate) {
     return {
       data: null,

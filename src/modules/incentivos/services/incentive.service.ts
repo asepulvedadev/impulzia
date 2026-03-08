@@ -47,10 +47,12 @@ export class IncentiveService {
   async getById(id: string): Promise<ServiceResult<IncentiveWithBusiness>> {
     const { data, error } = await this.supabase
       .from('incentives')
-      .select(`
+      .select(
+        `
         *,
         business:businesses(id, name, slug, logo_url, neighborhood, city)
-      `)
+      `,
+      )
       .eq('id', id)
       .single()
 
@@ -109,7 +111,8 @@ export class IncentiveService {
       .single()
 
     if (error) return { data: null, error: error.message, success: false }
-    if (!data) return { data: null, error: 'Incentivo no encontrado o no se puede publicar', success: false }
+    if (!data)
+      return { data: null, error: 'Incentivo no encontrado o no se puede publicar', success: false }
     return { data: data as Incentive, error: null, success: true }
   }
 
@@ -123,7 +126,8 @@ export class IncentiveService {
       .single()
 
     if (error) return { data: null, error: error.message, success: false }
-    if (!data) return { data: null, error: 'Incentivo no encontrado o no está activo', success: false }
+    if (!data)
+      return { data: null, error: 'Incentivo no encontrado o no está activo', success: false }
     return { data: data as Incentive, error: null, success: true }
   }
 
@@ -137,7 +141,8 @@ export class IncentiveService {
       .single()
 
     if (error) return { data: null, error: error.message, success: false }
-    if (!data) return { data: null, error: 'Incentivo no encontrado o no está pausado', success: false }
+    if (!data)
+      return { data: null, error: 'Incentivo no encontrado o no está pausado', success: false }
     return { data: data as Incentive, error: null, success: true }
   }
 
@@ -156,13 +161,17 @@ export class IncentiveService {
   // Public discovery
   // ─────────────────────────────────────────────────────────
 
-  async getActiveIncentives(filters: IncentiveFilters): Promise<ServiceResult<IncentiveWithBusiness[]>> {
+  async getActiveIncentives(
+    filters: IncentiveFilters,
+  ): Promise<ServiceResult<IncentiveWithBusiness[]>> {
     let query = this.supabase
       .from('incentives')
-      .select(`
+      .select(
+        `
         *,
         business:businesses(id, name, slug, logo_url, neighborhood, city)
-      `)
+      `,
+      )
       .eq('status', 'active')
       .or('end_date.is.null,end_date.gt.' + new Date().toISOString())
       .order('created_at', { ascending: false })
@@ -256,10 +265,7 @@ export class IncentiveService {
     return { data: result as unknown as RedeemResult, error: null, success: true }
   }
 
-  async confirmRedemption(
-    token: string,
-    confirmedBy: string,
-  ): Promise<ServiceResult<Redemption>> {
+  async confirmRedemption(token: string, confirmedBy: string): Promise<ServiceResult<Redemption>> {
     const { data, error } = await this.supabase
       .from('redemptions')
       .update({
@@ -274,7 +280,8 @@ export class IncentiveService {
       .single()
 
     if (error) return { data: null, error: error.message, success: false }
-    if (!data) return { data: null, error: 'Token inválido, expirado o ya confirmado', success: false }
+    if (!data)
+      return { data: null, error: 'Token inválido, expirado o ya confirmado', success: false }
     return { data: data as Redemption, error: null, success: true }
   }
 
@@ -284,11 +291,13 @@ export class IncentiveService {
   ): Promise<ServiceResult<RedemptionWithDetails[]>> {
     const { data, error } = await this.supabase
       .from('redemptions')
-      .select(`
+      .select(
+        `
         *,
         incentive:incentives(id, title, type, discount_type, discount_value),
         user:profiles(id, full_name, email)
-      `)
+      `,
+      )
       .eq('business_id', businessId)
       .order('created_at', { ascending: false })
       .limit(limit)
@@ -300,11 +309,13 @@ export class IncentiveService {
   async getUserRedemptions(userId: string): Promise<ServiceResult<RedemptionWithDetails[]>> {
     const { data, error } = await this.supabase
       .from('redemptions')
-      .select(`
+      .select(
+        `
         *,
         incentive:incentives(id, title, type, discount_type, discount_value),
         user:profiles(id, full_name, email)
-      `)
+      `,
+      )
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
 
@@ -339,12 +350,14 @@ export class IncentiveService {
   async getUserSavedIncentives(userId: string): Promise<ServiceResult<IncentiveWithBusiness[]>> {
     const { data, error } = await this.supabase
       .from('saved_incentives')
-      .select(`
+      .select(
+        `
         incentive:incentives(
           *,
           business:businesses(id, name, slug, logo_url, neighborhood, city)
         )
-      `)
+      `,
+      )
       .eq('user_id', userId)
       .order('saved_at', { ascending: false })
 
@@ -397,8 +410,7 @@ export class IncentiveService {
     // Increment stamps, check for reward
     const newStamps = existing.data.total_stamps + 1
     const newRewards =
-      existing.data.rewards_earned +
-      (newStamps % existing.data.stamps_required === 0 ? 1 : 0)
+      existing.data.rewards_earned + (newStamps % existing.data.stamps_required === 0 ? 1 : 0)
 
     const { data, error } = await this.supabase
       .from('loyalty_cards')

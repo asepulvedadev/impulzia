@@ -15,7 +15,13 @@ import {
   fillTemplate,
 } from '@/lib/ai/prompt-builder'
 import { getMonthKey } from '@/lib/ai/config'
-import { postGeneratorSchema, descriptionGeneratorSchema, promoIdeasSchema, reviewResponderSchema, priceAssistantSchema } from '@/modules/ia/validations/ai.schema'
+import {
+  postGeneratorSchema,
+  descriptionGeneratorSchema,
+  promoIdeasSchema,
+  reviewResponderSchema,
+  priceAssistantSchema,
+} from '@/modules/ia/validations/ai.schema'
 import type { SubscriptionTier } from '@/lib/ai/config'
 
 const TOOL_SCHEMAS = {
@@ -30,7 +36,10 @@ export async function POST(request: NextRequest) {
   const supabase = await createServerClient()
 
   // Auth
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser()
   if (authError || !user) {
     return NextResponse.json({ error: 'No autenticado' }, { status: 401 })
   }
@@ -48,7 +57,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Parse body
-  const body = await request.json() as Record<string, unknown>
+  const body = (await request.json()) as Record<string, unknown>
   const tool = body.tool as string
 
   if (!tool || !(tool in TOOL_SCHEMAS)) {
@@ -105,18 +114,31 @@ export async function POST(request: NextRequest) {
     const tpl = tplResult.data
 
     if (tool === 'post_generator') {
-      const d = input as { socialNetwork: string; productOrService: string; tone: string; additionalVariables: Record<string, string> }
+      const d = input as {
+        socialNetwork: string
+        productOrService: string
+        tone: string
+        additionalVariables: Record<string, string>
+      }
       prompt = buildPostGeneratorPrompt({
         businessName: business.name,
         businessCity: business.city ?? 'Cúcuta',
         productOrService: d.productOrService,
         socialNetwork: d.socialNetwork,
         tone: d.tone,
-        templatePrompt: fillTemplate(tpl.prompt_template, { business_name: business.name, business_city: business.city ?? 'Cúcuta' }),
+        templatePrompt: fillTemplate(tpl.prompt_template, {
+          business_name: business.name,
+          business_city: business.city ?? 'Cúcuta',
+        }),
         variables: d.additionalVariables ?? {},
       })
     } else if (tool === 'description_generator') {
-      const d = input as { length: 'corta' | 'media' | 'larga'; keywords: string; highlight: string; tone: string }
+      const d = input as {
+        length: 'corta' | 'media' | 'larga'
+        keywords: string
+        highlight: string
+        tone: string
+      }
       prompt = buildDescriptionGeneratorPrompt({
         businessName: business.name,
         businessCity: business.city ?? 'Cúcuta',
@@ -128,7 +150,12 @@ export async function POST(request: NextRequest) {
         templatePrompt: fillTemplate(tpl.prompt_template, { business_name: business.name }),
       })
     } else if (tool === 'promo_ideas') {
-      const d = input as { numIdeas: number; budget: string; targetAudience: string; additionalVariables: Record<string, string> }
+      const d = input as {
+        numIdeas: number
+        budget: string
+        targetAudience: string
+        additionalVariables: Record<string, string>
+      }
       prompt = buildPromoIdeasPrompt({
         businessName: business.name,
         businessCity: business.city ?? 'Cúcuta',
@@ -141,7 +168,12 @@ export async function POST(request: NextRequest) {
       })
     }
   } else if (tool === 'review_responder') {
-    const d = input as { reviewText: string; rating: number; reviewerName: string; tone: 'formal' | 'amigable' | 'profesional' }
+    const d = input as {
+      reviewText: string
+      rating: number
+      reviewerName: string
+      tone: 'formal' | 'amigable' | 'profesional'
+    }
     prompt = buildReviewResponderPrompt({
       businessName: business.name,
       reviewText: d.reviewText,
@@ -150,7 +182,13 @@ export async function POST(request: NextRequest) {
       tone: d.tone,
     })
   } else if (tool === 'price_assistant') {
-    const d = input as { productOrService: string; currentPrice: string; costPrice: string; competitorPrice: string; targetMargin: string }
+    const d = input as {
+      productOrService: string
+      currentPrice: string
+      costPrice: string
+      competitorPrice: string
+      targetMargin: string
+    }
     prompt = buildPriceAssistantPrompt({
       businessName: business.name,
       businessCategory: business.category_id ?? 'general',

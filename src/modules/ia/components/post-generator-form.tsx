@@ -51,7 +51,9 @@ export function PostGeneratorForm({
           ))}
         </select>
         {templates.find((t) => t.id === templateId)?.description && (
-          <p className="text-xs text-slate-500">{templates.find((t) => t.id === templateId)!.description}</p>
+          <p className="text-xs text-slate-500">
+            {templates.find((t) => t.id === templateId)!.description}
+          </p>
         )}
       </div>
 

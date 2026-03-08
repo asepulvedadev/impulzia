@@ -14,7 +14,9 @@ type IncentiveType = 'coupon' | 'combo' | 'reward'
 type DiscountType = 'percentage' | 'fixed_amount' | 'free_item'
 
 interface IncentiveFormProps {
-  onSubmit: (data: unknown) => Promise<{ success: boolean; error?: string | null; data?: Incentive | null }>
+  onSubmit: (
+    data: unknown,
+  ) => Promise<{ success: boolean; error?: string | null; data?: Incentive | null }>
   initialValues?: Partial<{
     title: string
     description: string
@@ -58,9 +60,7 @@ export function IncentiveForm({ onSubmit, initialValues, mode = 'create' }: Ince
     min_purchase: initialValues?.min_purchase?.toString() ?? '',
     max_uses: initialValues?.max_uses?.toString() ?? '',
     code: initialValues?.code ?? '',
-    end_date: initialValues?.end_date
-      ? initialValues.end_date.slice(0, 16)
-      : '',
+    end_date: initialValues?.end_date ? initialValues.end_date.slice(0, 16) : '',
   })
 
   function set(field: string, value: string) {
@@ -105,9 +105,7 @@ export function IncentiveForm({ onSubmit, initialValues, mode = 'create' }: Ince
             <div
               className={cn(
                 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all',
-                step >= s
-                  ? 'bg-brand-primary-600 text-white'
-                  : 'bg-slate-800 text-muted',
+                step >= s ? 'bg-brand-primary-600 text-white' : 'bg-slate-800 text-muted',
               )}
             >
               {s}
@@ -284,7 +282,9 @@ export function IncentiveForm({ onSubmit, initialValues, mode = 'create' }: Ince
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted">Tipo</span>
-              <Badge variant="secondary">{TYPE_OPTIONS.find((t) => t.value === form.type)?.label}</Badge>
+              <Badge variant="secondary">
+                {TYPE_OPTIONS.find((t) => t.value === form.type)?.label}
+              </Badge>
             </div>
             <div className="flex justify-between">
               <span className="text-muted">Título</span>
@@ -323,21 +323,17 @@ export function IncentiveForm({ onSubmit, initialValues, mode = 'create' }: Ince
           </Button>
         )}
         {step < 3 ? (
-          <Button onClick={() => setStep((s) => s + 1)} className="flex-1" disabled={!form.title || !form.type}>
+          <Button
+            onClick={() => setStep((s) => s + 1)}
+            className="flex-1"
+            disabled={!form.title || !form.type}
+          >
             Siguiente
             <ChevronRight size={16} />
           </Button>
         ) : (
-          <Button
-            onClick={handleSubmit}
-            className="flex-1"
-            disabled={loading}
-          >
-            {loading
-              ? 'Guardando...'
-              : mode === 'create'
-                ? 'Crear incentivo'
-                : 'Guardar cambios'}
+          <Button onClick={handleSubmit} className="flex-1" disabled={loading}>
+            {loading ? 'Guardando...' : mode === 'create' ? 'Crear incentivo' : 'Guardar cambios'}
           </Button>
         )}
       </div>

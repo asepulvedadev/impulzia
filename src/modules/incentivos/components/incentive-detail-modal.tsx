@@ -84,13 +84,9 @@ export function IncentiveDetailModal({
               )}
             </div>
 
-            <Dialog.Title className="text-lg font-bold text-white">
-              {incentive.title}
-            </Dialog.Title>
+            <Dialog.Title className="text-lg font-bold text-white">{incentive.title}</Dialog.Title>
 
-            {incentive.description && (
-              <p className="text-muted text-sm">{incentive.description}</p>
-            )}
+            {incentive.description && <p className="text-muted text-sm">{incentive.description}</p>}
 
             {/* Business info */}
             {incentive.business && (
@@ -130,9 +126,7 @@ export function IncentiveDetailModal({
               {incentive.min_purchase && (
                 <div className="flex items-center gap-1.5 text-muted col-span-2">
                   <Info size={13} />
-                  <span>
-                    Compra mínima: ${incentive.min_purchase.toLocaleString('es-CO')}
-                  </span>
+                  <span>Compra mínima: ${incentive.min_purchase.toLocaleString('es-CO')}</span>
                 </div>
               )}
             </div>

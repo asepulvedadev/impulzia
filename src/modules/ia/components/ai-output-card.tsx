@@ -6,7 +6,10 @@ import { StreamingText } from './streaming-text'
 import type { AiGeneration } from '../interfaces'
 
 interface AiOutputCardProps {
-  generation: Pick<AiGeneration, 'id' | 'tool' | 'output_text' | 'is_favorite' | 'rating' | 'created_at'>
+  generation: Pick<
+    AiGeneration,
+    'id' | 'tool' | 'output_text' | 'is_favorite' | 'rating' | 'created_at'
+  >
   isStreaming?: boolean
   streamingText?: string
   onToggleFavorite?: (id: string, current: boolean) => void
@@ -36,7 +39,9 @@ export function AiOutputCard({
   }
 
   return (
-    <div className={cn('rounded-xl border border-white/10 bg-slate-800/60 overflow-hidden', className)}>
+    <div
+      className={cn('rounded-xl border border-white/10 bg-slate-800/60 overflow-hidden', className)}
+    >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
         <div className="flex items-center gap-2">
@@ -55,14 +60,20 @@ export function AiOutputCard({
             className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors disabled:opacity-40"
             title="Copiar"
           >
-            {copied ? <Check className="w-4 h-4 text-brand-success-400" /> : <Copy className="w-4 h-4" />}
+            {copied ? (
+              <Check className="w-4 h-4 text-brand-success-400" />
+            ) : (
+              <Copy className="w-4 h-4" />
+            )}
           </button>
           {onToggleFavorite && (
             <button
               onClick={() => onToggleFavorite(generation.id, generation.is_favorite)}
               className={cn(
                 'p-1.5 rounded-lg transition-colors',
-                generation.is_favorite ? 'text-yellow-400 hover:text-yellow-300' : 'text-slate-400 hover:text-yellow-400 hover:bg-slate-700',
+                generation.is_favorite
+                  ? 'text-yellow-400 hover:text-yellow-300'
+                  : 'text-slate-400 hover:text-yellow-400 hover:bg-slate-700',
               )}
               title={generation.is_favorite ? 'Quitar favorito' : 'Marcar favorito'}
             >

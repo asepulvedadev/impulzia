@@ -22,9 +22,7 @@ function makeMock() {
     range: vi.fn().mockReturnThis(),
     single: vi.fn(),
     maybeSingle: vi.fn(),
-    then: vi.fn((resolve: (v: unknown) => unknown) =>
-      resolve({ data: null, error: null }),
-    ),
+    then: vi.fn((resolve: (v: unknown) => unknown) => resolve({ data: null, error: null })),
   }
   const from = vi.fn().mockReturnValue(chain)
   const rpc = vi.fn()
@@ -123,7 +121,10 @@ describe('AiGenerationService', () => {
 
   describe('toggleFavorite', () => {
     it('sets is_favorite to true', async () => {
-      mock.chain.single.mockResolvedValue({ data: { id: 'gen-001', is_favorite: true }, error: null })
+      mock.chain.single.mockResolvedValue({
+        data: { id: 'gen-001', is_favorite: true },
+        error: null,
+      })
       const result = await service.toggleFavorite('gen-001', true)
       expect(mock.chain.update).toHaveBeenCalledWith({ is_favorite: true })
       expect(result.success).toBe(true)
@@ -194,7 +195,12 @@ describe('AiUsageService', () => {
         data: { id: 'u-001', usage_count: 6 },
         error: null,
       })
-      const result = await service.incrementUsage('biz-001', 'user-001', '2026-03', 'post_generator')
+      const result = await service.incrementUsage(
+        'biz-001',
+        'user-001',
+        '2026-03',
+        'post_generator',
+      )
       expect(mock.chain.insert).toHaveBeenCalled()
       expect(result.success).toBe(true)
     })

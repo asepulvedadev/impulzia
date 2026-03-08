@@ -111,10 +111,7 @@ export type DescriptionGeneratorInput = z.infer<typeof descriptionGeneratorSchem
 
 export const reviewResponderSchema = z.object({
   businessId: z.string().min(1, 'Negocio requerido'),
-  reviewText: z
-    .string()
-    .min(1, 'Texto de reseña requerido')
-    .max(1000, 'Máximo 1000 caracteres'),
+  reviewText: z.string().min(1, 'Texto de reseña requerido').max(1000, 'Máximo 1000 caracteres'),
   rating: z.number().int().min(1, 'Mínimo 1 estrella').max(5, 'Máximo 5 estrellas'),
   reviewerName: z.string().max(100).default('Cliente'),
   tone: z.enum(['formal', 'amigable', 'profesional'], {

@@ -18,31 +18,25 @@ const incentiveBaseFields = {
   type: z.enum(['coupon', 'combo', 'reward'] as const, {
     error: 'Tipo de incentivo inválido',
   }),
-  discount_type: z
-    .enum(['percentage', 'fixed_amount', 'free_item'] as const)
-    .optional(),
+  discount_type: z.enum(['percentage', 'fixed_amount', 'free_item'] as const).optional(),
   discount_value: z
     .number()
     .positive('El valor del descuento debe ser positivo')
     .max(100, 'El porcentaje no puede superar 100')
     .optional(),
-  min_purchase: z
-    .number()
-    .positive('La compra mínima debe ser positiva')
-    .optional(),
+  min_purchase: z.number().positive('La compra mínima debe ser positiva').optional(),
 
   code: z
     .string()
     .min(3, 'El código debe tener entre 3 y 20 caracteres')
     .max(20, 'El código debe tener entre 3 y 20 caracteres')
-    .regex(/^[A-Z0-9_-]+$/, 'El código solo puede contener letras mayúsculas, números, guiones y guiones bajos')
+    .regex(
+      /^[A-Z0-9_-]+$/,
+      'El código solo puede contener letras mayúsculas, números, guiones y guiones bajos',
+    )
     .optional(),
 
-  max_uses: z
-    .number()
-    .int()
-    .positive('El límite de usos debe ser positivo')
-    .optional(),
+  max_uses: z.number().int().positive('El límite de usos debe ser positivo').optional(),
   max_uses_per_user: z
     .number()
     .int()
@@ -50,14 +44,8 @@ const incentiveBaseFields = {
     .max(10, 'El límite por usuario no puede superar 10')
     .default(1),
 
-  start_date: z
-    .string()
-    .datetime({ message: 'La fecha de inicio no es válida' })
-    .optional(),
-  end_date: z
-    .string()
-    .datetime({ message: 'La fecha de fin no es válida' })
-    .optional(),
+  start_date: z.string().datetime({ message: 'La fecha de inicio no es válida' }).optional(),
+  end_date: z.string().datetime({ message: 'La fecha de fin no es válida' }).optional(),
 
   target_categories: z.array(z.string().uuid('Categoría inválida')).optional(),
   target_neighborhoods: z.array(z.string()).optional(),
@@ -77,11 +65,7 @@ function refineCrossField(
   ctx: z.RefinementCtx,
 ) {
   // discount_value required when discount_type is percentage or fixed_amount
-  if (
-    data.discount_type &&
-    data.discount_type !== 'free_item' &&
-    !data.discount_value
-  ) {
+  if (data.discount_type && data.discount_type !== 'free_item' && !data.discount_value) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'El valor del descuento es requerido para este tipo',
@@ -131,9 +115,7 @@ function refineCrossField(
 // ─────────────────────────────────────────────────────────
 // Create schema
 // ─────────────────────────────────────────────────────────
-export const createIncentiveSchema = z
-  .object(incentiveBaseFields)
-  .superRefine(refineCrossField)
+export const createIncentiveSchema = z.object(incentiveBaseFields).superRefine(refineCrossField)
 
 // ─────────────────────────────────────────────────────────
 // Update schema (all fields optional except cross-field rules)
@@ -155,30 +137,24 @@ const updateBaseFields = {
   target_neighborhoods: incentiveBaseFields.target_neighborhoods,
 }
 
-export const updateIncentiveSchema = z
-  .object(updateBaseFields)
-  .superRefine((data, ctx) => {
-    if (
-      data.discount_type &&
-      data.discount_type !== 'free_item' &&
-      !data.discount_value
-    ) {
+export const updateIncentiveSchema = z.object(updateBaseFields).superRefine((data, ctx) => {
+  if (data.discount_type && data.discount_type !== 'free_item' && !data.discount_value) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'El valor del descuento es requerido para este tipo',
+      path: ['discount_value'],
+    })
+  }
+  if (data.start_date && data.end_date) {
+    if (new Date(data.end_date) <= new Date(data.start_date)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'El valor del descuento es requerido para este tipo',
-        path: ['discount_value'],
+        message: 'La fecha de fin debe ser posterior a la fecha de inicio',
+        path: ['end_date'],
       })
     }
-    if (data.start_date && data.end_date) {
-      if (new Date(data.end_date) <= new Date(data.start_date)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'La fecha de fin debe ser posterior a la fecha de inicio',
-          path: ['end_date'],
-        })
-      }
-    }
-  })
+  }
+})
 
 // ─────────────────────────────────────────────────────────
 // Publish validation (stricter subset)
@@ -187,9 +163,7 @@ export const publishIncentiveSchema = z
   .object({
     title: z.string().min(3, 'El título es requerido para publicar'),
     type: z.enum(['coupon', 'combo', 'reward'] as const),
-    discount_type: z
-      .enum(['percentage', 'fixed_amount', 'free_item'] as const)
-      .optional(),
+    discount_type: z.enum(['percentage', 'fixed_amount', 'free_item'] as const).optional(),
     discount_value: z.number().positive().optional(),
     end_date: z.string().datetime().optional(),
   })

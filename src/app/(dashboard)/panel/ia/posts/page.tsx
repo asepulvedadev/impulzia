@@ -26,7 +26,10 @@ export default function PostGeneratorPage() {
   const [businessId, setBusinessId] = React.useState('')
   const [isGenerating, setIsGenerating] = React.useState(false)
   const [streamingText, setStreamingText] = React.useState('')
-  const [generationResult, setGenerationResult] = React.useState<Pick<AiGeneration, 'id' | 'tool' | 'output_text' | 'is_favorite' | 'rating' | 'created_at'> | null>(null)
+  const [generationResult, setGenerationResult] = React.useState<Pick<
+    AiGeneration,
+    'id' | 'tool' | 'output_text' | 'is_favorite' | 'rating' | 'created_at'
+  > | null>(null)
   const [error, setError] = React.useState<string | null>(null)
 
   React.useEffect(() => {
@@ -55,11 +58,16 @@ export default function PostGeneratorPage() {
       const response = await fetch('/api/ai/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tool: 'post_generator', businessId, ...params, additionalVariables: {} }),
+        body: JSON.stringify({
+          tool: 'post_generator',
+          businessId,
+          ...params,
+          additionalVariables: {},
+        }),
       })
 
       if (!response.ok) {
-        const data = await response.json() as { error?: string }
+        const data = (await response.json()) as { error?: string }
         setError(data.error ?? 'Error generando contenido')
         return
       }
@@ -79,11 +87,24 @@ export default function PostGeneratorPage() {
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             try {
-              const data = JSON.parse(line.slice(6)) as { chunk?: string; done?: boolean; generationId?: string; error?: string }
-              if (data.chunk) { fullText += data.chunk; setStreamingText(fullText) }
+              const data = JSON.parse(line.slice(6)) as {
+                chunk?: string
+                done?: boolean
+                generationId?: string
+                error?: string
+              }
+              if (data.chunk) {
+                fullText += data.chunk
+                setStreamingText(fullText)
+              }
               if (data.generationId) generationId = data.generationId
-              if (data.error) { setError(data.error); break }
-            } catch { /* ignore parse errors */ }
+              if (data.error) {
+                setError(data.error)
+                break
+              }
+            } catch {
+              /* ignore parse errors */
+            }
           }
         }
       }
@@ -107,7 +128,9 @@ export default function PostGeneratorPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6 p-4">
       <div className="flex items-center gap-2">
-        <Link href="/panel/ia" className="text-slate-400 hover:text-white text-sm">← IA</Link>
+        <Link href="/panel/ia" className="text-slate-400 hover:text-white text-sm">
+          ← IA
+        </Link>
         <span className="text-slate-600">/</span>
         <h1 className="text-lg font-bold text-white flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-brand-primary-400" />
@@ -134,14 +157,16 @@ export default function PostGeneratorPage() {
 
           {(isGenerating || generationResult) && (
             <AiOutputCard
-              generation={generationResult ?? {
-                id: 'streaming',
-                tool: 'post_generator',
-                output_text: null,
-                is_favorite: false,
-                rating: null,
-                created_at: new Date().toISOString(),
-              }}
+              generation={
+                generationResult ?? {
+                  id: 'streaming',
+                  tool: 'post_generator',
+                  output_text: null,
+                  is_favorite: false,
+                  rating: null,
+                  created_at: new Date().toISOString(),
+                }
+              }
               isStreaming={isGenerating}
               streamingText={streamingText || undefined}
             />
