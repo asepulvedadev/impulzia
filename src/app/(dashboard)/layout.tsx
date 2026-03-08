@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/layout/sidebar'
 import { MobileNav } from '@/components/layout/mobile-nav'
-import { DevCredentials } from '@/components/shared/dev-credentials'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -28,7 +27,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <main className="flex-1 overflow-auto p-4 pb-20 sm:p-6 lg:p-8 lg:pb-8">{children}</main>
       </div>
       <MobileNav role={role} />
-      {process.env.NODE_ENV === 'development' && <DevCredentials />}
     </div>
   )
 }
