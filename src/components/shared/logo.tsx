@@ -19,7 +19,7 @@ export function Logo({ size = 'md', collapsed = false, className }: LogoProps) {
         data-testid="logo-text"
         className={cn(
           'overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out',
-          collapsed ? 'max-w-0 opacity-0' : 'max-w-[200px] opacity-100',
+          collapsed ? 'max-w-0 opacity-0' : 'max-w-xs opacity-100',
         )}
       >
         <span
