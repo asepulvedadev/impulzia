@@ -65,7 +65,7 @@ export async function generatePost(
       business_city: context.businessCity,
       ...input.additionalVariables,
     }),
-    variables: input.additionalVariables,
+    variables: input.additionalVariables as Record<string, string>,
   })
 
   try {

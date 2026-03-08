@@ -53,7 +53,7 @@ export const postGeneratorSchema = z.object({
     .max(200, 'Máximo 200 caracteres'),
   tone: z.string().min(1, 'Tono requerido'),
   customPrompt: z.string().max(500).optional(),
-  additionalVariables: z.record(z.string()).default({}),
+  additionalVariables: z.record(z.string(), z.string()).default({}),
 })
 
 export type PostGeneratorInput = z.infer<typeof postGeneratorSchema>
@@ -66,7 +66,7 @@ export const photoEnhancerSchema = z.object({
   businessId: z.string().min(1, 'Negocio requerido'),
   imageUrl: z.string().url('URL de imagen inválida'),
   enhancement: z.enum(AI_ENHANCEMENTS, {
-    errorMap: () => ({ message: 'Tipo de mejora inválido' }),
+    error: 'Tipo de mejora inválido',
   }),
   instructions: z.string().max(300).optional(),
 })
@@ -83,7 +83,7 @@ export const promoIdeasSchema = z.object({
   numIdeas: z.number().int().min(1, 'Mínimo 1 idea').max(10, 'Máximo 10 ideas'),
   budget: z.string().min(1, 'Presupuesto requerido'),
   targetAudience: z.string().min(1, 'Público objetivo requerido').max(200),
-  additionalVariables: z.record(z.string()).default({}),
+  additionalVariables: z.record(z.string(), z.string()).default({}),
 })
 
 export type PromoIdeasInput = z.infer<typeof promoIdeasSchema>
@@ -96,7 +96,7 @@ export const descriptionGeneratorSchema = z.object({
   businessId: z.string().min(1, 'Negocio requerido'),
   templateId: z.string().min(1, 'Plantilla requerida'),
   length: z.enum(['corta', 'media', 'larga'], {
-    errorMap: () => ({ message: 'Longitud inválida: corta, media o larga' }),
+    error: 'Longitud inválida: corta, media o larga',
   }),
   keywords: z.string().max(300).default(''),
   highlight: z.string().max(300).default(''),
@@ -118,7 +118,7 @@ export const reviewResponderSchema = z.object({
   rating: z.number().int().min(1, 'Mínimo 1 estrella').max(5, 'Máximo 5 estrellas'),
   reviewerName: z.string().max(100).default('Cliente'),
   tone: z.enum(['formal', 'amigable', 'profesional'], {
-    errorMap: () => ({ message: 'Tono inválido: formal, amigable o profesional' }),
+    error: 'Tono inválido: formal, amigable o profesional',
   }),
 })
 

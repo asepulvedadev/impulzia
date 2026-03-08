@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { Database } from '@/lib/supabase/database.types'
+import type { Database, Json } from '@/lib/supabase/database.types'
 import type { AiGeneration, ServiceResult, AiGenerationFilters } from '../interfaces'
 import type { AiTool } from '../validations/ai.schema'
 
@@ -33,7 +33,7 @@ export class AiGenerationService {
         owner_id: input.ownerId,
         tool: input.tool,
         status: 'pending',
-        input_data: input.inputData,
+        input_data: input.inputData as unknown as Json,
         input_image_url: input.inputImageUrl ?? null,
       })
       .select()
@@ -50,7 +50,7 @@ export class AiGenerationService {
         status: 'completed',
         output_text: output.outputText ?? null,
         output_image_url: output.outputImageUrl ?? null,
-        output_data: output.outputData ?? null,
+        output_data: (output.outputData ?? null) as unknown as Json | null,
         model_used: output.model,
         tokens_used: output.tokensUsed,
         processing_time_ms: output.durationMs,

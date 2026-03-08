@@ -64,7 +64,7 @@ export async function generatePromoIdeas(
       business_city: context.businessCity,
       business_category: context.businessCategory,
     }),
-    variables: input.additionalVariables,
+    variables: input.additionalVariables as Record<string, string>,
   })
 
   try {
