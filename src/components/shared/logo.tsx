@@ -24,7 +24,7 @@ export function Logo({ size = 'md', collapsed = false, className }: LogoProps) {
       >
         <span
           className={cn('tracking-widest text-white', sizeClasses[size])}
-          style={{ fontFamily: 'Blanka, sans-serif' }}
+          style={{ fontFamily: 'var(--font-blanka)' }}
         >
           IKARUS
         </span>

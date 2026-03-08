@@ -9,14 +9,10 @@ interface BusinessGridProps {
   skeletonCount?: number
 }
 
-export function BusinessGrid({
-  businesses,
-  isLoading = false,
-  skeletonCount = 6,
-}: BusinessGridProps) {
+export function BusinessGrid({ businesses, isLoading = false, skeletonCount = 6 }: BusinessGridProps) {
   if (isLoading) {
     return (
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: skeletonCount }, (_, i) => (
           <BusinessCardSkeleton key={i} />
         ))}
@@ -27,8 +23,8 @@ export function BusinessGrid({
   if (businesses.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="rounded-2xl bg-slate-800 p-4">
-          <Store className="h-10 w-10 text-muted" />
+        <div className="rounded-2xl bg-slate-800/60 p-5">
+          <Store className="h-10 w-10 text-slate-600" />
         </div>
         <h3 className="mt-4 text-lg font-semibold text-white">No se encontraron negocios</h3>
         <p className="mt-1 text-sm text-muted">Intenta con otros filtros o términos de búsqueda</p>
@@ -37,7 +33,7 @@ export function BusinessGrid({
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {businesses.map((business) => (
         <BusinessCard key={business.id} business={business} />
       ))}

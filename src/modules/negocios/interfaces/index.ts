@@ -29,9 +29,15 @@ export interface BusinessCard {
   slug: string
   short_description: string | null
   logo_url: string | null
+  cover_url: string | null
   neighborhood: string | null
   city: string | null
+  address: string | null
+  phone: string | null
+  whatsapp: string | null
   is_verified: boolean
+  is_featured: boolean
+  subscription_tier: 'free' | 'basic' | 'pro' | 'premium'
   business_categories: Pick<BusinessCategory, 'name' | 'slug' | 'icon'> | null
 }
 

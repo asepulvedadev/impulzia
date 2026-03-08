@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui'
@@ -12,6 +12,18 @@ const initialState: AuthResult = { data: null, error: null, success: false }
 
 export function LoginForm() {
   const [state, action, isPending] = useActionState(loginAction, initialState)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    function onFill(e: Event) {
+      const { email: e2, password: p } = (e as CustomEvent<{ email: string; password: string }>).detail
+      setEmail(e2)
+      setPassword(p)
+    }
+    window.addEventListener('dev:fill-credentials', onFill)
+    return () => window.removeEventListener('dev:fill-credentials', onFill)
+  }, [])
 
   return (
     <div className="space-y-6">
@@ -28,6 +40,8 @@ export function LoginForm() {
           placeholder="tu@correo.com"
           required
           autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <FormField
           label="Contraseña"
@@ -36,6 +50,8 @@ export function LoginForm() {
           placeholder="••••••••"
           required
           autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         {state.error && (

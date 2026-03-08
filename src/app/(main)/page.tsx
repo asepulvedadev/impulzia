@@ -10,38 +10,17 @@ import {
   Brain,
   MessageSquareText,
   TrendingUp,
-  BadgeCheck,
 } from 'lucide-react'
 import { Button } from '@/components/ui'
+import { HeroSlider } from '@/components/shared/hero-slider'
 import { createClient } from '@/lib/supabase/server'
 import { BusinessService } from '@/modules/negocios/services/business.service'
 import { IncentiveService } from '@/modules/incentivos/services/incentive.service'
 import { AdSlot, AdSlotSkeleton } from '@/modules/anuncios/components/ad-slot'
 import { IncentiveCard } from '@/modules/incentivos/components/incentive-card'
+import { BusinessCard } from '@/modules/negocios/components/business-card'
 import type { BusinessCard as BusinessCardType } from '@/modules/negocios/interfaces'
 import type { IncentiveWithBusiness } from '@/modules/incentivos/interfaces'
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  Utensils: '🍽️',
-  Store: '🏪',
-  Scissors: '✂️',
-  Dumbbell: '💪',
-  GraduationCap: '🎓',
-  Heart: '❤️',
-  Wrench: '🔧',
-  ShoppingBag: '🛍️',
-  Car: '🚗',
-  Palette: '🎨',
-}
-
-function getBusinessGradient(index: number) {
-  const gradients = [
-    'from-brand-primary-600 to-brand-primary-800',
-    'from-brand-accent-500 to-brand-accent-700',
-    'from-brand-success-500 to-brand-success-700',
-  ]
-  return gradients[index % gradients.length]
-}
 
 export default async function HomePage() {
   const supabase = await createClient()
@@ -58,39 +37,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Hero Section ── */}
-      <section className="bg-hero-gradient px-6 py-16 lg:py-24 lg:px-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-2xl">
-            <h1 className="font-heading text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Tu negocio,
-              <br />
-              impulsado por IA
-            </h1>
-            <p className="mt-6 text-lg text-white/80">
-              La plataforma que conecta comercios locales con clientes usando inteligencia
-              artificial. Publicidad, incentivos, marketplace y red social comercial en un solo
-              lugar.
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Button
-                size="lg"
-                className="bg-white text-brand-primary-700 shadow-lg hover:bg-white/90 hover:scale-105"
-                asChild
-              >
-                <Link href="/signup">Registra tu negocio</Link>
-              </Button>
-              <Button
-                size="lg"
-                className="border-2 border-white bg-transparent text-white hover:bg-white/10 hover:scale-105"
-                asChild
-              >
-                <Link href="/explorar">Explorar negocios</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── Hero Slider ── */}
+      <HeroSlider />
 
       {/* ── Featured Businesses ── */}
       {featured.length > 0 && (
@@ -106,59 +54,9 @@ export default async function HomePage() {
               </Link>
             </div>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {featured.map((business, index) => {
-                const categoryEmoji = business.business_categories?.icon
-                  ? (CATEGORY_EMOJI[business.business_categories.icon] ?? '🏢')
-                  : '🏢'
-
-                return (
-                  <Link
-                    key={business.id}
-                    href={`/negocio/${business.slug}`}
-                    className="group block overflow-hidden rounded-xl border border-slate-800 bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    {/* Card image area */}
-                    <div
-                      className={`relative aspect-[16/10] bg-gradient-to-br ${getBusinessGradient(index)}`}
-                    >
-                      {/* Category badge */}
-                      {business.business_categories && (
-                        <div className="absolute top-3 left-3">
-                          <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold text-slate-800 shadow-sm">
-                            {categoryEmoji} {business.business_categories.name}
-                          </span>
-                        </div>
-                      )}
-                      {/* Business initial or logo */}
-                      <div className="flex h-full items-center justify-center">
-                        {business.logo_url ? (
-                          <img
-                            src={business.logo_url}
-                            alt={business.name}
-                            className="h-16 w-16 rounded-full object-cover ring-2 ring-white/30"
-                          />
-                        ) : (
-                          <span className="text-5xl font-extrabold text-white/30">
-                            {business.name.charAt(0).toUpperCase()}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    {/* Card info */}
-                    <div className="p-4">
-                      <div className="flex items-center gap-1.5">
-                        <h3 className="font-semibold text-white">{business.name}</h3>
-                        {business.is_verified && (
-                          <BadgeCheck className="h-4 w-4 text-brand-primary-600" />
-                        )}
-                      </div>
-                      {business.neighborhood && (
-                        <p className="mt-1 text-sm text-muted">{business.neighborhood}</p>
-                      )}
-                    </div>
-                  </Link>
-                )
-              })}
+              {featured.map((business) => (
+                <BusinessCard key={business.id} business={business} />
+              ))}
             </div>
           </div>
         </section>

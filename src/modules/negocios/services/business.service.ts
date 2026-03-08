@@ -16,7 +16,7 @@ import { SlugService } from './slug.service'
 type BusinessRow = Database['public']['Tables']['businesses']['Row']
 
 const BUSINESS_CARD_SELECT =
-  'id, name, slug, short_description, logo_url, neighborhood, city, is_verified, business_categories(name, slug, icon)'
+  'id, name, slug, short_description, logo_url, cover_url, neighborhood, city, address, phone, whatsapp, is_verified, is_featured, subscription_tier, business_categories(name, slug, icon)'
 
 export class BusinessService {
   constructor(private supabase: SupabaseClient<Database>) {}

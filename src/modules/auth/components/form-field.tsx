@@ -12,6 +12,7 @@ interface FormFieldProps {
   required?: boolean
   autoComplete?: string
   defaultValue?: string
+  value?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -25,6 +26,7 @@ export function FormField({
   required,
   autoComplete,
   defaultValue,
+  value,
   onChange,
 }: FormFieldProps) {
   return (
@@ -43,7 +45,8 @@ export function FormField({
           placeholder={placeholder}
           required={required}
           autoComplete={autoComplete}
-          defaultValue={defaultValue}
+          defaultValue={value !== undefined ? undefined : defaultValue}
+          value={value}
           onChange={onChange}
           className={cn(
             error && 'border-brand-error-500 focus-visible:ring-brand-error-500',

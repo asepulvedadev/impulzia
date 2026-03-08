@@ -1,6 +1,7 @@
 import { Logo } from '@/components/shared/logo'
 import { Store, BarChart3, Sparkles } from 'lucide-react'
 import Link from 'next/link'
+import { DevCredentials } from '@/components/shared/dev-credentials'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -51,6 +52,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-white/5" />
         <div className="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-white/5" />
       </div>
+      {process.env.NODE_ENV === 'development' && <DevCredentials />}
     </div>
   )
 }
