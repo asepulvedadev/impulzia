@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from 'react'
 import Link from 'next/link'
-import { Loader2 } from 'lucide-react'
+import { Loader2, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui'
 import { FormField } from './form-field'
 import { loginAction } from '../actions/auth.actions'
@@ -100,6 +100,16 @@ export function LoginForm() {
           Regístrate
         </Link>
       </p>
+
+      <div className="text-center">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-sm text-muted transition hover:text-white"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Volver al inicio
+        </Link>
+      </div>
     </div>
   )
 }
