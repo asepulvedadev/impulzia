@@ -49,7 +49,7 @@ export default async function ExplorarPanelPage({ searchParams }: ExplorarPanelP
       </div>
 
       <Suspense fallback={null}>
-        <SearchFilters categories={categories} />
+        <SearchFilters categories={categories} basePath="/panel/explorar" showPreview />
       </Suspense>
 
       <Suspense fallback={<AdSlotSkeleton size="full" />}>

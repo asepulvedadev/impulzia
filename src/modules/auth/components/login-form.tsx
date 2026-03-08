@@ -28,8 +28,6 @@ export function LoginForm() {
     setActive(user.label)
   }
 
-  const isDev = process.env.NODE_ENV === 'development'
-
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -77,26 +75,24 @@ export function LoginForm() {
         </Button>
       </form>
 
-      {/* Dev credentials — inline, visible en móvil */}
-      {isDev && (
-        <div className="space-y-2">
-          <p className="text-center text-[11px] font-semibold uppercase tracking-widest text-slate-600">
-            Acceso rápido (dev)
-          </p>
-          <div className="grid grid-cols-3 gap-2">
-            {DEV_USERS.map((u) => (
-              <button
-                key={u.label}
-                type="button"
-                onClick={() => fill(u)}
-                className={`rounded-xl border px-2 py-2.5 text-xs font-semibold transition ${u.color} ${active === u.label ? 'ring-1 ring-current' : ''}`}
-              >
-                {u.label}
-              </button>
-            ))}
-          </div>
+      {/* Acceso rápido demo */}
+      <div className="space-y-2">
+        <p className="text-center text-[11px] font-semibold uppercase tracking-widest text-slate-600">
+          Acceso rápido
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {DEV_USERS.map((u) => (
+            <button
+              key={u.label}
+              type="button"
+              onClick={() => fill(u)}
+              className={`rounded-xl border px-2 py-2.5 text-xs font-semibold transition ${u.color} ${active === u.label ? 'ring-1 ring-current' : ''}`}
+            >
+              {u.label}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
 
       <p className="text-center text-sm text-muted">
         ¿No tienes cuenta?{' '}
