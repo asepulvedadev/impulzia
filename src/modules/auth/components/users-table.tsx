@@ -23,7 +23,7 @@ function UserRow({ user, currentAdminId }: { user: ProfileRow; currentAdminId: s
   const [pending, startTransition] = useTransition()
   const isSelf = user.id === currentAdminId
 
-  function handleRoleChange(role: string) {
+  function handleRoleChange(role: 'user' | 'business_owner' | 'admin') {
     startTransition(() => {
       updateUserRoleAction(user.id, role)
     })
@@ -68,7 +68,7 @@ function UserRow({ user, currentAdminId }: { user: ProfileRow; currentAdminId: s
           <select
             value={user.role}
             disabled={pending}
-            onChange={(e) => handleRoleChange(e.target.value)}
+            onChange={(e) => handleRoleChange(e.target.value as 'user' | 'business_owner' | 'admin')}
             className="rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 text-xs font-semibold text-white focus:outline-none focus:ring-1 focus:ring-brand-primary-500 disabled:opacity-50"
           >
             <option value="user">Usuario</option>

@@ -3,6 +3,9 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import type { AuthResult } from '../interfaces'
+import type { Database } from '@/lib/supabase/database.types'
+
+type UserRole = Database['public']['Tables']['profiles']['Row']['role']
 
 async function requireAdmin() {
   const supabase = await createClient()
@@ -23,7 +26,7 @@ async function requireAdmin() {
 
 export async function updateUserRoleAction(
   userId: string,
-  role: string,
+  role: UserRole,
 ): Promise<AuthResult> {
   const { supabase, error } = await requireAdmin()
   if (!supabase) return { data: null, error, success: false }
