@@ -82,7 +82,7 @@ export function Footer() {
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-8 sm:flex-row">
           <div className="flex items-center gap-4">
             <p className="text-sm">
-              &copy; {new Date().getFullYear()} IKARUS. Todos los derechos reservados.
+              &copy; {new Date().getFullYear()} Rcomienda. Todos los derechos reservados.
             </p>
             <div className="flex items-center gap-3">
               <a

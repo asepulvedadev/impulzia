@@ -46,7 +46,7 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
   const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(
     `${business.address ?? business.name}, Cúcuta, Colombia`,
   )}`
-  const waMsg = encodeURIComponent(`Hola, vi ${business.name} en IKARUS y quiero más información.`)
+  const waMsg = encodeURIComponent(`Hola, vi ${business.name} en Rcomienda y quiero más información.`)
 
   return (
     <div className={cn(

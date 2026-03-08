@@ -69,7 +69,7 @@ export function BusinessForm({ categories }: BusinessFormProps) {
             />
             {previewSlug && (
               <p className="mt-1 text-xs text-muted">
-                URL: ikarus.app/negocio/<span className="font-medium">{previewSlug}</span>
+                URL: rcomienda.app/negocio/<span className="font-medium">{previewSlug}</span>
               </p>
             )}
           </div>

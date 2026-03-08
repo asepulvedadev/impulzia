@@ -26,7 +26,7 @@ export function Logo({ size = 'md', collapsed = false, className }: LogoProps) {
           className={cn('tracking-widest text-white', sizeClasses[size])}
           style={{ fontFamily: 'var(--font-blanka)' }}
         >
-          IKARUS
+          Rcomienda
         </span>
       </span>
     </div>

@@ -2,8 +2,8 @@ import { describe, it, expect } from 'vitest'
 import { QRService } from '../services/qr.service'
 
 describe('QRService.parseScannedContent', () => {
-  it('extracts token from valid IKARUS prefix', () => {
-    const token = QRService.parseScannedContent('IKARUS:AB3D5F7G')
+  it('extracts token from valid Rcomienda prefix', () => {
+    const token = QRService.parseScannedContent('Rcomienda:AB3D5F7G')
     expect(token).toBe('AB3D5F7G')
   })
 
@@ -13,9 +13,9 @@ describe('QRService.parseScannedContent', () => {
   })
 
   it('returns null for invalid token format', () => {
-    expect(QRService.parseScannedContent('IKARUS:ab3d5f7g')).toBeNull()
-    expect(QRService.parseScannedContent('IKARUS:SHORT')).toBeNull()
-    expect(QRService.parseScannedContent('IKARUS:TOOLONGG9')).toBeNull()
+    expect(QRService.parseScannedContent('Rcomienda:ab3d5f7g')).toBeNull()
+    expect(QRService.parseScannedContent('Rcomienda:SHORT')).toBeNull()
+    expect(QRService.parseScannedContent('Rcomienda:TOOLONGG9')).toBeNull()
   })
 })
 

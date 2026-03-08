@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { Logo } from './logo'
 
 describe('Logo component', () => {
-  it('renders IKARUS text', () => {
+  it('renders Rcomienda text', () => {
     render(<Logo />)
     expect(screen.getByText('IMPULZ')).toBeInTheDocument()
     expect(screen.getByText('IA')).toBeInTheDocument()

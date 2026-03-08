@@ -22,7 +22,7 @@ export class QRService {
     const { size = 200, foreground = '#000000', background = '#FFFFFF' } = options
 
     // Build a URL that the validation scanner will read
-    const content = `IKARUS:${token}`
+    const content = `Rcomienda:${token}`
 
     // Return a placeholder SVG that encodes the token visually
     // (replace with qrcode library in production)
@@ -35,7 +35,7 @@ export class QRService {
    * Returns null if the format is invalid.
    */
   static parseScannedContent(scanned: string): string | null {
-    const prefix = 'IKARUS:'
+    const prefix = 'Rcomienda:'
     if (!scanned.startsWith(prefix)) return null
     const token = scanned.slice(prefix.length).trim()
     if (!/^[A-Z0-9]{8}$/.test(token)) return null
@@ -80,7 +80,7 @@ export class QRService {
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   <rect width="${size}" height="${size}" fill="${bg}"/>
   ${innerCells.join('\n  ')}
-  <text x="${size / 2}" y="${size + 14}" text-anchor="middle" font-size="10" fill="${fg}" font-family="monospace">${content.replace('IKARUS:', '')}</text>
+  <text x="${size / 2}" y="${size + 14}" text-anchor="middle" font-size="10" fill="${fg}" font-family="monospace">${content.replace('Rcomienda:', '')}</text>
 </svg>`
   }
 }

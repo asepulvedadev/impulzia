@@ -44,9 +44,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const supabase = await createClient()
   const result = await new BusinessService(supabase).getBySlug(slug)
-  if (!result.data) return { title: 'Negocio no encontrado | IKARUS' }
+  if (!result.data) return { title: 'Negocio no encontrado | Rcomienda' }
   return {
-    title: `${result.data.name} | IKARUS`,
+    title: `${result.data.name} | Rcomienda`,
     description: result.data.short_description ?? result.data.description ?? undefined,
   }
 }

@@ -21,9 +21,9 @@ const blanka = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'IKARUS — Tu negocio, impulsado por IA',
+  title: 'Rcomienda — Descubre y recomienda comercios locales',
   description:
-    'La plataforma que conecta comercios locales con clientes usando inteligencia artificial. Publicidad, incentivos, marketplace y red social comercial.',
+    'Explora, descubre y recomienda los mejores comercios locales de tu ciudad. Restaurantes, tiendas, servicios y más con reseñas, incentivos y publicidad local.',
 }
 
 export default function RootLayout({

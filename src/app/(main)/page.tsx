@@ -225,7 +225,7 @@ export default async function HomePage() {
                   <div className="h-3 w-3 rounded-full bg-yellow-400" />
                   <div className="h-3 w-3 rounded-full bg-green-400" />
                   <span className="ml-2 text-xs font-semibold tracking-wider text-muted">
-                    IKARUS CORE V2.0
+                    RCOMIENDA CORE V2.0
                   </span>
                 </div>
                 {/* Terminal body */}
