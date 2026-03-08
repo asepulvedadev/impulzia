@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 type Role = 'user' | 'business_owner' | 'admin'
 
 const ROLE_ROUTES: Record<Role, string[]> = {
-  user: ['/panel', '/panel/perfil'],
+  user: ['/panel', '/panel/perfil', '/panel/explorar'],
   business_owner: [
     '/panel',
     '/panel/negocio',

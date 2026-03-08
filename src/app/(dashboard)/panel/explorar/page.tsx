@@ -60,7 +60,7 @@ export default async function ExplorarPanelPage({ searchParams }: ExplorarPanelP
 
       {result && result.total_pages > 1 && (
         <Suspense fallback={null}>
-          <Pagination page={result.page} totalPages={result.total_pages} />
+          <Pagination page={result.page} totalPages={result.total_pages} basePath="/panel/explorar" />
         </Suspense>
       )}
     </div>

@@ -8,9 +8,10 @@ import { cn } from '@/lib/utils/cn'
 interface PaginationProps {
   page: number
   totalPages: number
+  basePath?: string
 }
 
-export function Pagination({ page, totalPages }: PaginationProps) {
+export function Pagination({ page, totalPages, basePath = '/explorar' }: PaginationProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -19,7 +20,7 @@ export function Pagination({ page, totalPages }: PaginationProps) {
   const goToPage = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', String(newPage))
-    router.push(`/explorar?${params.toString()}`)
+    router.push(`${basePath}?${params.toString()}`)
   }
 
   // Generate page numbers to show

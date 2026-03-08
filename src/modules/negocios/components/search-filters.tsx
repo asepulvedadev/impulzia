@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Search, SlidersHorizontal, X, MapPin } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Input, Button } from '@/components/ui'
 import { CategoryChips } from './category-chips'
@@ -149,12 +148,10 @@ export function SearchFilters({
                           {/* Logo */}
                           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-slate-800">
                             {biz.logo_url ? (
-                              <Image
+                              <img
                                 src={biz.logo_url}
                                 alt={biz.name}
-                                fill
-                                className="object-cover"
-                                sizes="40px"
+                                className="h-full w-full object-cover"
                               />
                             ) : (
                               <span className="flex h-full w-full items-center justify-center text-base font-bold text-brand-primary-400">
