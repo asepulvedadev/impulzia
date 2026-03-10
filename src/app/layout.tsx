@@ -36,7 +36,7 @@ export default function RootLayout({
     <html lang="es" className="dark">
       <head />
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${blanka.variable} font-sans antialiased`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${blanka.variable} font-sans antialiased overflow-x-hidden`}
       >
         {children}
         <SpeedInsights />
