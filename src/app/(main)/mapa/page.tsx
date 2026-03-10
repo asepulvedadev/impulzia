@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function MapaPage() {
   return (
-    <div className="flex h-[calc(100dvh-5rem)] flex-col sm:h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-2rem)]">
+    <div className="flex h-[calc(100dvh-5rem)] flex-col overflow-hidden sm:h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-2rem)]">
       {/* Header */}
       <div className="mb-3 shrink-0">
         <h1 className="text-lg font-bold text-white sm:text-2xl">Mapa de Cúcuta</h1>
