@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { withCache } from '@/lib/redis'
 import { BusinessService } from '@/modules/negocios/services/business.service'
 import { BusinessGrid } from '@/modules/negocios/components/business-grid'
 import { SearchFilters } from '@/modules/negocios/components/search-filters'
@@ -25,7 +26,9 @@ export default async function ExplorarPage({ searchParams }: ExplorarPageProps) 
   const service = new BusinessService(supabase)
 
   // Fetch categories first to resolve categoryId, then search in parallel with nothing else
-  const categoriesResult = await service.getCategories()
+  const categoriesResult = await withCache('catalog:categories', 3600, () =>
+    service.getCategories(),
+  )
   const categories = (categoriesResult.data as BusinessCategory[]) ?? []
 
   const categoryId = params.category

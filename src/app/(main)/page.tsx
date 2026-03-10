@@ -14,6 +14,7 @@ import {
 import { Button } from '@/components/ui'
 import { HeroSlider } from '@/components/shared/hero-slider'
 import { createClient } from '@/lib/supabase/server'
+import { withCache } from '@/lib/redis'
 import { BusinessService } from '@/modules/negocios/services/business.service'
 import { IncentiveService } from '@/modules/incentivos/services/incentive.service'
 import { AdSlot, AdSlotSkeleton } from '@/modules/anuncios/components/ad-slot'
@@ -28,8 +29,10 @@ export default async function HomePage() {
   const incentiveService = new IncentiveService(supabase)
 
   const [featuredResult, incentivesResult] = await Promise.all([
-    service.getFeatured(3),
-    incentiveService.getActiveIncentives({ city: 'Cúcuta', limit: 4 }),
+    withCache('home:featured:3', 300, () => service.getFeatured(3)),
+    withCache('home:incentives:cucuta:4', 120, () =>
+      incentiveService.getActiveIncentives({ city: 'Cúcuta', limit: 4 }),
+    ),
   ])
 
   const featured = (featuredResult.data as BusinessCardType[]) ?? []
