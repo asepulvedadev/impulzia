@@ -21,10 +21,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const userName = profile?.full_name || profile?.email || ''
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen overflow-x-hidden">
       <Sidebar role={role} userName={userName} />
-      <div className="flex flex-1 flex-col">
-        <main className="flex-1 overflow-auto p-4 pb-20 sm:p-6 lg:p-8 lg:pb-8">{children}</main>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 pb-20 sm:p-6 lg:p-8 lg:pb-8">{children}</main>
       </div>
       <MobileNav role={role} />
     </div>

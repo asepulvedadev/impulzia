@@ -72,8 +72,8 @@ export function UserDashboard({ banners, incentives, businesses }: UserDashboard
       {/* ── Buscador + Mapa (un solo viewport) ───────────────────── */}
       <section
         ref={resultsRef}
-        className="flex flex-col gap-2"
-        style={{ height: 'calc(100dvh - 120px)', minHeight: 420, maxHeight: 780 }}
+        className="flex w-full flex-col gap-2 overflow-hidden"
+        style={{ height: 'calc(100dvh - 140px)', minHeight: 380, maxHeight: 720 }}
       >
         {/* Buscador compacto */}
         <form
@@ -155,12 +155,12 @@ export function UserDashboard({ banners, incentives, businesses }: UserDashboard
         )}
 
         {/* Mapa — ocupa el resto del viewport */}
-        <div className="min-h-0 flex-1 overflow-hidden rounded-2xl">
+        <div className="min-h-0 w-full flex-1 overflow-hidden rounded-2xl">
           <BusinessMarkerMap
             businesses={displayBusinesses}
             selectedId={selectedId}
             onSelect={setSelectedId}
-            className="h-full w-full"
+            className="h-full w-full overflow-hidden rounded-2xl"
           />
         </div>
 
