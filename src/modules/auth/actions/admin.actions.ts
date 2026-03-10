@@ -12,7 +12,7 @@ async function requireAdmin() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) return { supabase: null, error: 'No autenticado' }
+  if (!user) return { supabase: null, adminId: null, error: 'No autenticado' }
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -20,8 +20,8 @@ async function requireAdmin() {
     .eq('id', user.id)
     .single()
 
-  if (profile?.role !== 'admin') return { supabase: null, error: 'Sin permisos' }
-  return { supabase, error: null }
+  if (profile?.role !== 'admin') return { supabase: null, adminId: null, error: 'Sin permisos' }
+  return { supabase, adminId: user.id, error: null }
 }
 
 export async function updateUserRoleAction(
@@ -38,7 +38,7 @@ export async function updateUserRoleAction(
 
   if (updateError) return { data: null, error: updateError.message, success: false }
 
-  revalidatePath('/panel/admin')
+  revalidatePath('/panel/admin/usuarios')
   return { data: null, error: null, success: true }
 }
 
@@ -56,6 +56,53 @@ export async function toggleUserStatusAction(
 
   if (updateError) return { data: null, error: updateError.message, success: false }
 
-  revalidatePath('/panel/admin')
+  revalidatePath('/panel/admin/usuarios')
+  return { data: null, error: null, success: true }
+}
+
+export async function deleteUserAction(userId: string): Promise<AuthResult> {
+  const { supabase, adminId, error } = await requireAdmin()
+  if (!supabase) return { data: null, error, success: false }
+
+  if (userId === adminId) return { data: null, error: 'No puedes eliminarte a ti mismo', success: false }
+
+  const { error: deleteError } = await supabase.from('profiles').delete().eq('id', userId)
+
+  if (deleteError) return { data: null, error: deleteError.message, success: false }
+
+  revalidatePath('/panel/admin/usuarios')
+  return { data: null, error: null, success: true }
+}
+
+export async function adminToggleBusinessStatusAction(
+  businessId: string,
+  isActive: boolean,
+): Promise<AuthResult> {
+  const { supabase, error } = await requireAdmin()
+  if (!supabase) return { data: null, error, success: false }
+
+  const { error: updateError } = await supabase
+    .from('businesses')
+    .update({ is_active: isActive })
+    .eq('id', businessId)
+
+  if (updateError) return { data: null, error: updateError.message, success: false }
+
+  revalidatePath('/panel/admin/negocios')
+  return { data: null, error: null, success: true }
+}
+
+export async function adminDeleteBusinessAction(businessId: string): Promise<AuthResult> {
+  const { supabase, error } = await requireAdmin()
+  if (!supabase) return { data: null, error, success: false }
+
+  const { error: deleteError } = await supabase
+    .from('businesses')
+    .delete()
+    .eq('id', businessId)
+
+  if (deleteError) return { data: null, error: deleteError.message, success: false }
+
+  revalidatePath('/panel/admin/negocios')
   return { data: null, error: null, success: true }
 }

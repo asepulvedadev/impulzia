@@ -893,8 +893,145 @@ export interface Database {
         }
         Relationships: []
       }
+      user_events: {
+        Row: {
+          id: string
+          user_id: string | null
+          session_id: string
+          event_type:
+            | 'business_view' | 'business_click' | 'search_query'
+            | 'search_zero_results' | 'category_explore' | 'neighborhood_filter'
+            | 'whatsapp_click' | 'maps_click' | 'incentive_view'
+            | 'incentive_save' | 'scroll_depth'
+          entity_type: 'business' | 'category' | 'incentive' | 'search' | 'ad' | null
+          entity_id: string | null
+          metadata: Json
+          neighborhood: string | null
+          city: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          session_id: string
+          event_type:
+            | 'business_view' | 'business_click' | 'search_query'
+            | 'search_zero_results' | 'category_explore' | 'neighborhood_filter'
+            | 'whatsapp_click' | 'maps_click' | 'incentive_view'
+            | 'incentive_save' | 'scroll_depth'
+          entity_type?: 'business' | 'category' | 'incentive' | 'search' | 'ad' | null
+          entity_id?: string | null
+          metadata?: Json
+          neighborhood?: string | null
+          city?: string | null
+          created_at?: string
+        }
+        Update: {
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'user_events_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      user_preferences: {
+        Row: {
+          user_id: string
+          category_slug: string
+          affinity_score: number
+          view_count: number
+          click_count: number
+          whatsapp_count: number
+          redemption_count: number
+          last_interaction: string | null
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          category_slug: string
+          affinity_score?: number
+          view_count?: number
+          click_count?: number
+          whatsapp_count?: number
+          redemption_count?: number
+          last_interaction?: string | null
+          updated_at?: string
+        }
+        Update: {
+          affinity_score?: number
+          view_count?: number
+          click_count?: number
+          whatsapp_count?: number
+          redemption_count?: number
+          last_interaction?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'user_preferences_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
     }
     Views: {
+      business_stats: {
+        Row: {
+          business_id: string
+          neighborhood: string | null
+          category_slug: string | null
+          views_24h: number
+          views_7d: number
+          views_30d: number
+          whatsapp_clicks_7d: number
+          maps_clicks_7d: number
+          velocity_ratio: number
+          refreshed_at: string
+        }
+        Relationships: []
+      }
+      search_analytics: {
+        Row: {
+          query: string
+          category_filter: string | null
+          neighborhood: string | null
+          search_count: number
+          zero_results_count: number
+          unique_sessions: number
+          day: string
+        }
+        Relationships: []
+      }
+      business_similarity: {
+        Row: {
+          business_a: string
+          business_b: string
+          co_session_count: number
+          jaccard_score: number
+          refreshed_at: string
+        }
+        Relationships: []
+      }
+      neighborhood_heatmap: {
+        Row: {
+          neighborhood: string
+          total_events: number
+          unique_sessions: number
+          unique_users: number
+          searches: number
+          business_views: number
+          whatsapp_clicks: number
+        }
+        Relationships: []
+      }
       ad_stats: {
         Row: {
           ad_id: string
@@ -935,6 +1072,42 @@ export interface Database {
       generate_redemption_token: {
         Args: Record<string, never>
         Returns: string
+      }
+      recalculate_user_affinity: {
+        Args: { p_user_id: string }
+        Returns: void
+      }
+      purge_old_events: {
+        Args: Record<string, never>
+        Returns: void
+      }
+      refresh_all_analytics: {
+        Args: Record<string, never>
+        Returns: void
+      }
+      get_business_peak_hours: {
+        Args: { p_business_id: string }
+        Returns: { hour_of_day: number; event_count: number }[]
+      }
+      get_business_top_neighborhoods: {
+        Args: { p_business_id: string; p_limit?: number }
+        Returns: { neighborhood: string; event_count: number }[]
+      }
+      get_similar_businesses: {
+        Args: { p_business_id: string; p_limit?: number }
+        Returns: { business_id: string; jaccard_score: number; source: string }[]
+      }
+      refresh_business_similarity: {
+        Args: Record<string, never>
+        Returns: void
+      }
+      get_personalized_scores: {
+        Args: {
+          p_user_id?: string
+          p_category?: string
+          p_limit?: number
+        }
+        Returns: { business_id: string; personalization_score: number }[]
       }
     }
     Enums: Record<string, never>

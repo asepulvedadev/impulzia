@@ -1,9 +1,10 @@
+import Image from 'next/image'
 import { cn } from '@/lib/utils/cn'
 
 const sizeClasses = {
-  sm: 'text-xl',
-  md: 'text-2xl',
-  lg: 'text-4xl',
+  sm: { text: 'text-xl', icon: 24 },
+  md: { text: 'text-2xl', icon: 32 },
+  lg: { text: 'text-4xl', icon: 48 },
 } as const
 
 interface LogoProps {
@@ -13,8 +14,17 @@ interface LogoProps {
 }
 
 export function Logo({ size = 'md', collapsed = false, className }: LogoProps) {
+  const { text, icon } = sizeClasses[size]
   return (
-    <div className={cn('flex items-center', className)}>
+    <div className={cn('flex items-center gap-2', className)}>
+      <Image
+        src="/icono.png"
+        alt="Rcomienda isotipo"
+        width={icon}
+        height={icon}
+        className="shrink-0"
+        priority
+      />
       <span
         data-testid="logo-text"
         className={cn(
@@ -23,7 +33,7 @@ export function Logo({ size = 'md', collapsed = false, className }: LogoProps) {
         )}
       >
         <span
-          className={cn('tracking-widest text-white', sizeClasses[size])}
+          className={cn('tracking-widest text-white', text)}
           style={{ fontFamily: 'var(--font-blanka)' }}
         >
           Rcomienda

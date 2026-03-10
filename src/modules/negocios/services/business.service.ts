@@ -16,7 +16,7 @@ import { SlugService } from './slug.service'
 type BusinessRow = Database['public']['Tables']['businesses']['Row']
 
 const BUSINESS_CARD_SELECT =
-  'id, name, slug, short_description, logo_url, cover_url, neighborhood, city, address, phone, whatsapp, is_verified, is_featured, subscription_tier, business_categories(name, slug, icon)'
+  'id, name, slug, short_description, logo_url, cover_url, neighborhood, city, address, phone, whatsapp, latitude, longitude, is_verified, is_featured, subscription_tier, business_categories(name, slug, icon)'
 
 export class BusinessService {
   constructor(private supabase: SupabaseClient<Database>) {}
@@ -134,11 +134,27 @@ export class BusinessService {
     return { data: business as BusinessRow, error: null, success: true }
   }
 
-  async search(params: BusinessSearchParams): Promise<ServiceResult<BusinessSearchResult>> {
+  async search(
+    params: BusinessSearchParams,
+    userId?: string,
+  ): Promise<ServiceResult<BusinessSearchResult>> {
     const page = params.page ?? 1
     const perPage = params.per_page ?? 12
     const from = (page - 1) * perPage
     const to = from + perPage - 1
+
+    // Obtener scores de personalización cuando hay usuario o sort_by relevance
+    let scoreMap: Map<string, number> | null = null
+    if (userId || params.sort_by === 'relevance') {
+      const { data: scores } = await this.supabase.rpc('get_personalized_scores', {
+        p_user_id: userId ?? undefined,
+        p_category: params.category_slug ?? undefined,
+        p_limit: 200,
+      })
+      if (scores && scores.length > 0) {
+        scoreMap = new Map(scores.map((s) => [s.business_id, s.personalization_score]))
+      }
+    }
 
     let query = this.supabase
       .from('businesses')
@@ -178,9 +194,20 @@ export class BusinessService {
       return { data: null, error: error.message, success: false }
     }
 
+    let businesses = (data as unknown as BusinessCard[]) ?? []
+
+    // Re-rankear con scores personalizados si existen
+    if (scoreMap && scoreMap.size > 0 && params.sort_by !== 'name') {
+      businesses = [...businesses].sort((a, b) => {
+        const scoreA = scoreMap!.get(a.id) ?? 0
+        const scoreB = scoreMap!.get(b.id) ?? 0
+        return scoreB - scoreA
+      })
+    }
+
     const total = count ?? 0
     const result: BusinessSearchResult = {
-      data: (data as unknown as BusinessCard[]) ?? [],
+      data: businesses,
       total,
       page,
       total_pages: Math.ceil(total / perPage),

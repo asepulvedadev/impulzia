@@ -15,10 +15,6 @@ const ROLE_ROUTES: Record<Role, string[]> = {
   ],
   admin: [
     '/panel',
-    '/panel/negocio',
-    '/panel/anuncios',
-    '/panel/incentivos',
-    '/panel/ia',
     '/panel/admin',
     '/panel/perfil',
   ],

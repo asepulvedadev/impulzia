@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { Store, Megaphone, Gift, Sparkles, Pencil } from 'lucide-react'
 import { Card, CardContent, Button } from '@/components/ui'
-import { BusinessStatsCards } from '@/modules/negocios/components/business-stats-cards'
+import { BusinessInsightsPanel } from '@/modules/analytics/components/business-insights-panel'
+import { getBusinessInsightsAction } from '@/modules/analytics/actions/insights.actions'
 import type { Database } from '@/lib/supabase/database.types'
 
 type ProfileRow = Database['public']['Tables']['profiles']['Row']
@@ -39,8 +40,12 @@ const quickActions = [
   },
 ]
 
-export function DashboardContent({ profile, business }: DashboardContentProps) {
+export async function DashboardContent({ profile, business }: DashboardContentProps) {
   const firstName = profile?.full_name?.split(' ')[0] || 'Usuario'
+
+  const insights = business
+    ? await getBusinessInsightsAction(business.id)
+    : null
 
   return (
     <div className="space-y-8">
@@ -69,7 +74,7 @@ export function DashboardContent({ profile, business }: DashboardContentProps) {
         </Card>
       ) : (
         <>
-          <BusinessStatsCards />
+          {insights && <BusinessInsightsPanel data={insights} />}
 
           <div>
             <h2 className="font-heading mb-4 text-lg font-bold text-white">Acciones rápidas</h2>

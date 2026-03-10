@@ -26,7 +26,7 @@ function makeMock() {
   }
   const from = vi.fn().mockReturnValue(chain)
   const rpc = vi.fn()
-  return { supabase: { from, rpc } as unknown as Parameters<typeof AiGenerationService>[0], chain }
+  return { supabase: { from, rpc } as unknown as ConstructorParameters<typeof AiGenerationService>[0], chain }
 }
 
 // ─────────────────────────────────────────────────────────

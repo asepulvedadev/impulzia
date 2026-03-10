@@ -1,6 +1,7 @@
-import { Globe, Send } from 'lucide-react'
+import { Mail, Send } from 'lucide-react'
 import { Logo } from '@/components/shared/logo'
 import { Input } from '@/components/ui'
+import { COMPANY_EMAIL, SOCIAL_LINKS } from '@/lib/constants'
 
 const footerLinks = {
   Producto: [
@@ -86,23 +87,27 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <a
-                href="#"
+                href={`mailto:${COMPANY_EMAIL}`}
                 className="text-slate-500 transition-colors hover:text-white"
-                aria-label="Website"
+                aria-label="Correo electrónico"
               >
-                <Globe className="h-4 w-4" />
+                <Mail className="h-4 w-4" />
               </a>
               <a
-                href="#"
+                href={SOCIAL_LINKS.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-slate-500 transition-colors hover:text-white"
-                aria-label="Twitter"
+                aria-label="Facebook"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
                 </svg>
               </a>
               <a
-                href="#"
+                href={SOCIAL_LINKS.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-slate-500 transition-colors hover:text-white"
                 aria-label="Instagram"
               >

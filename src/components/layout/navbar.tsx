@@ -9,7 +9,6 @@ import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils/cn'
 
 const navLinks = [
-  { href: '/explorar', label: 'Explorar' },
   { href: '/ofertas', label: 'Ofertas' },
   { href: '#negocios', label: 'Para Negocios' },
 ]

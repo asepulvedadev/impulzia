@@ -12,6 +12,7 @@ import {
   LogOut,
   ShieldCheck,
   Compass,
+  Users,
 } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import { Logo } from '@/components/shared/logo'
@@ -24,16 +25,17 @@ interface SidebarLink {
   label: string
   icon: React.ElementType
   disabled?: boolean
+  exact?: boolean
 }
 
 const linksByRole: Record<Role, SidebarLink[]> = {
   user: [
-    { href: '/panel', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/panel', label: 'Inicio', icon: LayoutDashboard, exact: true },
     { href: '/panel/explorar', label: 'Explorar', icon: Compass },
     { href: '/panel/perfil', label: 'Mi Perfil', icon: User },
   ],
   business_owner: [
-    { href: '/panel', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/panel', label: 'Inicio', icon: LayoutDashboard, exact: true },
     { href: '/panel/negocio', label: 'Mi Negocio', icon: Store },
     { href: '/panel/anuncios', label: 'Anuncios', icon: Megaphone },
     { href: '/panel/incentivos', label: 'Incentivos', icon: Gift },
@@ -41,12 +43,9 @@ const linksByRole: Record<Role, SidebarLink[]> = {
     { href: '/panel/perfil', label: 'Mi Perfil', icon: User },
   ],
   admin: [
-    { href: '/panel', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/panel/negocio', label: 'Mi Negocio', icon: Store },
-    { href: '/panel/anuncios', label: 'Anuncios', icon: Megaphone },
-    { href: '/panel/incentivos', label: 'Incentivos', icon: Gift },
-    { href: '/panel/ia', label: 'Centro IA', icon: Sparkles },
-    { href: '/panel/admin', label: 'Admin', icon: ShieldCheck },
+    { href: '/panel/admin', label: 'Dashboard', icon: ShieldCheck, exact: true },
+    { href: '/panel/admin/usuarios', label: 'Usuarios', icon: Users },
+    { href: '/panel/admin/negocios', label: 'Negocios', icon: Store },
     { href: '/panel/perfil', label: 'Mi Perfil', icon: User },
   ],
 }
@@ -92,8 +91,7 @@ export function Sidebar({ role, userName }: SidebarProps) {
       {/* Nav links */}
       <nav className="flex-1 space-y-0.5 p-3">
         {links.map((link) => {
-          const isActive =
-            link.href === '/panel' ? pathname === '/panel' : pathname.startsWith(link.href)
+          const isActive = link.exact ? pathname === link.href : pathname.startsWith(link.href)
 
           if (link.disabled) {
             return (

@@ -1,8 +1,8 @@
 'use client'
 
-import { useTransition } from 'react'
-import { BadgeCheck, UserX, UserCheck } from 'lucide-react'
-import { updateUserRoleAction, toggleUserStatusAction } from '../actions/admin.actions'
+import { useTransition, useState } from 'react'
+import { BadgeCheck, UserX, UserCheck, Trash2 } from 'lucide-react'
+import { updateUserRoleAction, toggleUserStatusAction, deleteUserAction } from '../actions/admin.actions'
 import type { Database } from '@/lib/supabase/database.types'
 
 type ProfileRow = Database['public']['Tables']['profiles']['Row']
@@ -21,6 +21,7 @@ const ROLE_COLORS: Record<string, string> = {
 
 function UserRow({ user, currentAdminId }: { user: ProfileRow; currentAdminId: string }) {
   const [pending, startTransition] = useTransition()
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const isSelf = user.id === currentAdminId
 
   function handleRoleChange(role: 'user' | 'business_owner' | 'admin') {
@@ -32,6 +33,13 @@ function UserRow({ user, currentAdminId }: { user: ProfileRow; currentAdminId: s
   function handleToggleStatus() {
     startTransition(() => {
       toggleUserStatusAction(user.id, !user.is_active)
+    })
+  }
+
+  function handleDelete() {
+    if (!confirmDelete) { setConfirmDelete(true); return }
+    startTransition(() => {
+      deleteUserAction(user.id)
     })
   }
 
@@ -82,22 +90,37 @@ function UserRow({ user, currentAdminId }: { user: ProfileRow; currentAdminId: s
       </td>
       <td className="px-4 py-3 text-right">
         {!isSelf && (
-          <button
-            onClick={handleToggleStatus}
-            disabled={pending}
-            title={user.is_active ? 'Desactivar usuario' : 'Activar usuario'}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition disabled:opacity-50 ${
-              user.is_active
-                ? 'border border-red-800 text-red-400 hover:bg-red-900/20'
-                : 'border border-brand-success-800 text-brand-success-400 hover:bg-brand-success-900/20'
-            }`}
-          >
-            {user.is_active ? (
-              <><UserX className="h-3.5 w-3.5" /> Desactivar</>
-            ) : (
-              <><UserCheck className="h-3.5 w-3.5" /> Activar</>
-            )}
-          </button>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              onClick={handleToggleStatus}
+              disabled={pending}
+              title={user.is_active ? 'Desactivar' : 'Activar'}
+              className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition disabled:opacity-50 ${
+                user.is_active
+                  ? 'border border-red-800 text-red-400 hover:bg-red-900/20'
+                  : 'border border-brand-success-800 text-brand-success-400 hover:bg-brand-success-900/20'
+              }`}
+            >
+              {user.is_active ? (
+                <><UserX className="h-3.5 w-3.5" /><span className="hidden sm:inline">Desactivar</span></>
+              ) : (
+                <><UserCheck className="h-3.5 w-3.5" /><span className="hidden sm:inline">Activar</span></>
+              )}
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={pending}
+              title={confirmDelete ? 'Confirmar eliminación' : 'Eliminar usuario'}
+              className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition disabled:opacity-50 ${
+                confirmDelete
+                  ? 'border border-red-500 bg-red-900/30 text-red-300'
+                  : 'border border-slate-700 text-slate-400 hover:border-red-800 hover:text-red-400'
+              }`}
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">{confirmDelete ? '¿Confirmar?' : 'Eliminar'}</span>
+            </button>
+          </div>
         )}
       </td>
     </tr>

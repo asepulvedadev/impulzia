@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { BadgeCheck, MapPin, MessageCircle, Star } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
+import { useTracker } from '@/hooks/use-tracker'
 import type { BusinessCard as BusinessCardType } from '../interfaces'
 
 interface BusinessCardProps {
@@ -39,6 +40,7 @@ function waNumber(raw: string) {
 }
 
 export function BusinessCard({ business, className }: BusinessCardProps) {
+  const { track } = useTracker()
   const initial = business.name.charAt(0).toUpperCase()
   const slug = business.business_categories?.slug ?? ''
   const gradient = CATEGORY_GRADIENT[slug] ?? 'from-brand-primary-600 to-brand-primary-800'
@@ -51,69 +53,81 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
 
   return (
     <div className={cn(
-      'group flex flex-col overflow-hidden rounded-2xl border border-slate-700/60 bg-slate-900',
+      'group relative flex flex-col rounded-2xl border border-slate-700/60 bg-slate-900',
       'shadow-lg shadow-black/40 transition-all duration-300',
       'hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/60 hover:border-slate-600',
       className,
     )}>
-      {/* Cover */}
-      <Link href={`/negocio/${business.slug}`} className="relative block aspect-[16/9] shrink-0 overflow-hidden">
-        {business.cover_url ? (
-          <Image
-            src={business.cover_url}
-            alt={business.name}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className={cn('h-full w-full bg-gradient-to-br', gradient)}>
-            <div className="flex h-full items-center justify-center">
-              <span className="select-none text-7xl font-black text-white/20">{initial}</span>
+      {/* Cover + Logo wrapper — overflow visible so logo can overlap */}
+      <div className="relative shrink-0">
+        <Link
+          href={`/negocio/${business.slug}`}
+          className="relative block aspect-[16/9] overflow-hidden rounded-t-2xl"
+          onClick={() => track({
+            event_type: 'business_click',
+            entity_type: 'business',
+            entity_id: business.id,
+            metadata: { name: business.name, category: business.business_categories?.slug },
+            neighborhood: business.neighborhood ?? undefined,
+          })}
+        >
+          {business.cover_url ? (
+            <Image
+              src={business.cover_url}
+              alt={business.name}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className={cn('h-full w-full bg-gradient-to-br', gradient)}>
+              <div className="flex h-full items-center justify-center">
+                <span className="select-none text-7xl font-black text-white/20">{initial}</span>
+              </div>
             </div>
+          )}
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-900 to-transparent" />
+
+          {/* Badges */}
+          <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
+            {tierBadge && (
+              <span className={cn('rounded-full px-2 py-0.5 text-[10px] font-black tracking-wider shadow-md', tierBadge.style)}>
+                {tierBadge.label}
+              </span>
+            )}
+            {business.is_featured && !tierBadge && (
+              <span className="flex items-center gap-0.5 rounded-full bg-brand-primary-600/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-md">
+                <Star className="h-2.5 w-2.5 fill-white" /> DESTACADO
+              </span>
+            )}
           </div>
-        )}
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-900 to-transparent" />
+        </Link>
 
-        {/* Badges */}
-        <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
-          {tierBadge && (
-            <span className={cn('rounded-full px-2 py-0.5 text-[10px] font-black tracking-wider shadow-md', tierBadge.style)}>
-              {tierBadge.label}
-            </span>
-          )}
-          {business.is_featured && !tierBadge && (
-            <span className="flex items-center gap-0.5 rounded-full bg-brand-primary-600/90 px-2 py-0.5 text-[10px] font-bold text-white shadow-md">
-              <Star className="h-2.5 w-2.5 fill-white" /> DESTACADO
-            </span>
-          )}
-        </div>
-
-        {/* Logo */}
-        <div className="absolute bottom-0 left-4 translate-y-1/2">
+        {/* Logo — outside the Link so overflow-hidden no lo recorta */}
+        <div className="absolute bottom-0 left-4 z-10 translate-y-1/2">
           {business.logo_url ? (
-            <div className="relative h-12 w-12 overflow-hidden rounded-xl border-2 border-slate-800 shadow-lg">
+            <div className="relative h-14 w-14 overflow-hidden rounded-xl border-[3px] border-slate-900 shadow-xl ring-1 ring-slate-700">
               <Image
                 src={business.logo_url}
                 alt={`Logo ${business.name}`}
                 fill
-                sizes="48px"
+                sizes="56px"
                 className="object-cover"
               />
             </div>
           ) : (
             <div className={cn(
-              'flex h-12 w-12 items-center justify-center rounded-xl border-2 border-slate-800 shadow-lg text-lg font-black text-white bg-gradient-to-br',
+              'flex h-14 w-14 items-center justify-center rounded-xl border-[3px] border-slate-900 shadow-xl ring-1 ring-slate-700 text-lg font-black text-white bg-gradient-to-br',
               gradient,
             )}>
               {initial}
             </div>
           )}
         </div>
-      </Link>
+      </div>
 
       {/* Body */}
-      <div className="flex flex-1 flex-col px-4 pb-4 pt-8">
+      <div className="flex flex-1 flex-col px-4 pb-4 pt-10">
         <Link href={`/negocio/${business.slug}`} className="flex items-center gap-1.5">
           <h3 className="text-base font-bold text-white transition-colors group-hover:text-brand-primary-300">
             {business.name}
@@ -148,7 +162,16 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
               href={`https://wa.me/${waNumber(business.whatsapp)}?text=${waMsg}`}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation()
+                track({
+                  event_type: 'whatsapp_click',
+                  entity_type: 'business',
+                  entity_id: business.id,
+                  metadata: { name: business.name },
+                  neighborhood: business.neighborhood ?? undefined,
+                })
+              }}
               className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-green-600 px-3 py-2 text-xs font-semibold text-white shadow-md transition hover:bg-green-500 active:scale-95"
             >
               <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
@@ -158,7 +181,16 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation()
+              track({
+                event_type: 'maps_click',
+                entity_type: 'business',
+                entity_id: business.id,
+                metadata: { name: business.name },
+                neighborhood: business.neighborhood ?? undefined,
+              })
+            }}
             className={cn(
               'flex items-center justify-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-300 shadow-md transition hover:border-slate-600 hover:text-white active:scale-95',
               !business.whatsapp && 'flex-1',

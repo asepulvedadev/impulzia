@@ -1,9 +1,11 @@
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { BusinessService } from '@/modules/negocios/services/business.service'
 import { IncentiveService } from '@/modules/incentivos/services/incentive.service'
 import { DashboardContent } from './dashboard-content'
 import { UserDashboard } from './user-dashboard'
+import { TrendingBusinesses, TrendingBusinessesSkeleton } from '@/modules/negocios/components/trending-businesses'
 import type { Database } from '@/lib/supabase/database.types'
 import type { BusinessCard } from '@/modules/negocios/interfaces'
 import type { IncentiveWithBusiness } from '@/modules/incentivos/interfaces'
@@ -40,15 +42,25 @@ export default async function PanelPage() {
     ])
 
     return (
-      <UserDashboard
-        banners={(bannersResult.data as PromoBanner[]) ?? []}
-        incentives={(incentivesResult.data as IncentiveWithBusiness[]) ?? []}
-        businesses={(featuredResult.data as BusinessCard[]) ?? []}
-      />
+      <div className="space-y-8">
+        <UserDashboard
+          banners={(bannersResult.data as PromoBanner[]) ?? []}
+          incentives={(incentivesResult.data as IncentiveWithBusiness[]) ?? []}
+          businesses={(featuredResult.data as BusinessCard[]) ?? []}
+        />
+        <Suspense fallback={<TrendingBusinessesSkeleton />}>
+          <TrendingBusinesses limit={6} />
+        </Suspense>
+      </div>
     )
   }
 
-  // business_owner / admin: existing dashboard
+  // admin: redirect to admin dashboard
+  if (role === 'admin') {
+    redirect('/panel/admin')
+  }
+
+  // business_owner: existing dashboard
   const { data: business } = await supabase
     .from('businesses')
     .select('*')

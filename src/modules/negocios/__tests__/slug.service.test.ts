@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { SlugService } from '../services/slug.service'
 
-function mockSupabase(existingSlugs: string[]) {
+function mockSupabase(existingSlugs: string[]): unknown {
   return {
     from: () => ({
       select: () => ({
@@ -13,7 +13,7 @@ function mockSupabase(existingSlugs: string[]) {
         }),
       }),
     }),
-  } as ReturnType<typeof mockSupabase>
+  }
 }
 
 describe('SlugService', () => {

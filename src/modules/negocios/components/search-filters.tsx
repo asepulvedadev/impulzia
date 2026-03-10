@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Search, SlidersHorizontal, X, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { Input, Button } from '@/components/ui'
+import { useTracker } from '@/hooks/use-tracker'
 import { CategoryChips } from './category-chips'
 import type { BusinessCard, BusinessCategory } from '../interfaces'
 
@@ -21,6 +22,7 @@ export function SearchFilters({
 }: SearchFiltersProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { track } = useTracker()
 
   const [query, setQuery] = useState(searchParams.get('query') ?? '')
   const [showFilters, setShowFilters] = useState(false)
@@ -51,15 +53,27 @@ export function SearchFilters({
     [router, searchParams, basePath],
   )
 
-  // Debounced URL update
+  // Debounced URL update + tracking de búsqueda
   useEffect(() => {
     const timer = setTimeout(() => {
       const currentQuery = searchParams.get('query') ?? ''
       if (query !== currentQuery) {
         updateParams({ query: query || null })
+        if (query.trim().length >= 2) {
+          track({
+            event_type: 'search_query',
+            entity_type: 'search',
+            metadata: {
+              query: query.trim(),
+              category_filter: activeCategory,
+            },
+            neighborhood: neighborhood || undefined,
+          })
+        }
       }
     }, 300)
     return () => clearTimeout(timer)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, searchParams, updateParams])
 
   // Live preview fetch
@@ -101,6 +115,13 @@ export function SearchFilters({
 
   const handleCategorySelect = (slug: string | null) => {
     updateParams({ category: slug })
+    if (slug) {
+      track({
+        event_type: 'category_explore',
+        entity_type: 'category',
+        metadata: { category_slug: slug },
+      })
+    }
   }
 
   const handleClearFilters = () => {
@@ -224,7 +245,16 @@ export function SearchFilters({
           placeholder="Barrio"
           value={neighborhood}
           onChange={(e) => setNeighborhood(e.target.value)}
-          onBlur={() => updateParams({ neighborhood: neighborhood || null })}
+          onBlur={() => {
+            updateParams({ neighborhood: neighborhood || null })
+            if (neighborhood.trim()) {
+              track({
+                event_type: 'neighborhood_filter',
+                metadata: { neighborhood: neighborhood.trim() },
+                neighborhood: neighborhood.trim(),
+              })
+            }
+          }}
           className="md:w-40"
         />
         <label className="flex items-center gap-2 text-sm text-muted">

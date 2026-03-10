@@ -35,6 +35,8 @@ export interface BusinessCard {
   address: string | null
   phone: string | null
   whatsapp: string | null
+  latitude: number | null
+  longitude: number | null
   is_verified: boolean
   is_featured: boolean
   subscription_tier: 'free' | 'basic' | 'pro' | 'premium'
@@ -61,10 +63,11 @@ export interface BusinessFormData {
 export interface BusinessSearchParams {
   query?: string
   category_id?: string
+  category_slug?: string   // para personalización por categoría
   city?: string
   neighborhood?: string
   is_verified?: boolean
-  sort_by?: 'recent' | 'name' | 'rating'
+  sort_by?: 'recent' | 'name' | 'rating' | 'relevance'
   page?: number
   per_page?: number
 }

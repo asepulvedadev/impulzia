@@ -1,0 +1,216 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "name": "Comuna 1",
+        "sector": "Norte",
+        "color": "#2563EB",
+        "barrios": ["Blanco", "La Libertad", "La Victoria", "Llano Verde", "Nuevo Horizonte", "Popular", "Villa del Rosario Norte"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5200, 7.9200],
+          [-72.4900, 7.9200],
+          [-72.4900, 7.9000],
+          [-72.5050, 7.8950],
+          [-72.5200, 7.9000],
+          [-72.5200, 7.9200]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "name": "Comuna 2",
+        "sector": "Nororiental",
+        "color": "#7C3AED",
+        "barrios": ["Aeropuerto", "El Bosque", "El Paraíso", "Fontanar", "Juan Atalaya", "La Merced", "Loma de Bolivar", "San Miguel"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.4900, 7.9200],
+          [-72.4600, 7.9200],
+          [-72.4600, 7.8950],
+          [-72.4750, 7.8850],
+          [-72.4900, 7.9000],
+          [-72.4900, 7.9200]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "name": "Comuna 3",
+        "sector": "Oriental",
+        "color": "#059669",
+        "barrios": ["Belén", "El Suspiro", "La Ceiba", "La Florida", "Los Altos", "Manuela Beltrán", "Puente Barco Leones", "Ricaurte"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.4750, 7.8850],
+          [-72.4600, 7.8950],
+          [-72.4600, 7.8600],
+          [-72.4750, 7.8600],
+          [-72.4900, 7.8700],
+          [-72.4900, 7.9000],
+          [-72.4750, 7.8850]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "name": "Comuna 4",
+        "sector": "Suroriental",
+        "color": "#D97706",
+        "barrios": ["Caño Limón", "El Contento", "El Progreso", "La Ceiba Alta", "Playa Rica", "San Pedro", "Sevilla", "Villa Luz"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.4900, 7.8700],
+          [-72.4750, 7.8600],
+          [-72.4600, 7.8600],
+          [-72.4600, 7.8400],
+          [-72.4900, 7.8400],
+          [-72.4900, 7.8700]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "name": "Comuna 5",
+        "sector": "Suroccidental",
+        "color": "#DC2626",
+        "barrios": ["Chapinero", "El Llano", "El Rosal", "Kennedy", "La Esmeralda", "La Frontera", "Simón Bolívar", "Tierra Prometida"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5350, 7.8700],
+          [-72.5050, 7.8700],
+          [-72.4900, 7.8700],
+          [-72.4900, 7.8400],
+          [-72.5350, 7.8400],
+          [-72.5350, 7.8700]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 6,
+        "name": "Comuna 6",
+        "sector": "Occidental",
+        "color": "#0891B2",
+        "barrios": ["Cincuentenario", "El Carmen", "La Garita", "La Primavera", "Los Pinos", "Parque Norte", "Quinta Oriental", "Villa del Rey"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5500, 7.9000],
+          [-72.5200, 7.9000],
+          [-72.5200, 7.9200],
+          [-72.5500, 7.9200],
+          [-72.5500, 7.9000]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 7,
+        "name": "Comuna 7",
+        "sector": "Noroccidental",
+        "color": "#BE185D",
+        "barrios": ["Comuneros", "El Toro", "Juan XXIII", "La Hermosa", "La Unión", "Las Américas", "Prados del Norte", "San Rafael"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5500, 7.9000],
+          [-72.5200, 7.9000],
+          [-72.5050, 7.8950],
+          [-72.5200, 7.8700],
+          [-72.5350, 7.8700],
+          [-72.5500, 7.8700],
+          [-72.5500, 7.9000]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 8,
+        "name": "Comuna 8",
+        "sector": "Centro",
+        "color": "#F97316",
+        "barrios": ["Alfonso López", "Centro", "Chapinero Centro", "Cundinamarca", "El Callejón", "La Playa", "Lleras", "San Mateo"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5200, 7.9000],
+          [-72.5050, 7.8950],
+          [-72.4900, 7.9000],
+          [-72.4900, 7.8700],
+          [-72.5050, 7.8700],
+          [-72.5200, 7.8700],
+          [-72.5200, 7.9000]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 9,
+        "name": "Comuna 9",
+        "sector": "Sur",
+        "color": "#16A34A",
+        "barrios": ["Buque", "El Bosque Sur", "El Talento", "La Paz", "Los Acacios", "María Auxiliadora", "Nuevo Horizonte Sur", "San Martín"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5350, 7.8700],
+          [-72.5050, 7.8700],
+          [-72.4900, 7.8700],
+          [-72.4900, 7.8400],
+          [-72.5350, 7.8400],
+          [-72.5350, 7.8700]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 10,
+        "name": "Comuna 10",
+        "sector": "Suroccidental Externo",
+        "color": "#6D28D9",
+        "barrios": ["Antonia Santos", "El Paraíso Sur", "El Portal", "La Esperanza", "Los Músicos", "Nuevo Colón", "San Jorge", "Villa Flor"]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5600, 7.8700],
+          [-72.5350, 7.8700],
+          [-72.5350, 7.8400],
+          [-72.5600, 7.8400],
+          [-72.5600, 7.8700]
+        ]]
+      }
+    }
+  ]
+}

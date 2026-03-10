@@ -2,28 +2,28 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Store, Gift, Sparkles, LogOut, Compass } from 'lucide-react'
+import { LayoutDashboard, Store, Gift, Sparkles, LogOut, Compass, ShieldCheck, Users, User } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import { logoutAction } from '@/modules/auth/actions/auth.actions'
 
 type Role = 'user' | 'business_owner' | 'admin'
 
-const navByRole: Record<Role, { href: string; label: string; icon: React.ElementType }[]> = {
+const navByRole: Record<Role, { href: string; label: string; icon: React.ElementType; exact?: boolean }[]> = {
   user: [
-    { href: '/panel', label: 'Panel', icon: LayoutDashboard },
+    { href: '/panel', label: 'Panel', icon: LayoutDashboard, exact: true },
     { href: '/panel/explorar', label: 'Explorar', icon: Compass },
   ],
   business_owner: [
-    { href: '/panel', label: 'Panel', icon: LayoutDashboard },
+    { href: '/panel', label: 'Panel', icon: LayoutDashboard, exact: true },
     { href: '/panel/negocio', label: 'Negocio', icon: Store },
     { href: '/panel/incentivos', label: 'Incentivos', icon: Gift },
     { href: '/panel/ia', label: 'IA', icon: Sparkles },
   ],
   admin: [
-    { href: '/panel', label: 'Panel', icon: LayoutDashboard },
-    { href: '/panel/negocio', label: 'Negocio', icon: Store },
-    { href: '/panel/incentivos', label: 'Incentivos', icon: Gift },
-    { href: '/panel/ia', label: 'IA', icon: Sparkles },
+    { href: '/panel/admin', label: 'Admin', icon: ShieldCheck, exact: true },
+    { href: '/panel/admin/usuarios', label: 'Usuarios', icon: Users },
+    { href: '/panel/admin/negocios', label: 'Negocios', icon: Store },
+    { href: '/panel/perfil', label: 'Perfil', icon: User },
   ],
 }
 
@@ -35,8 +35,7 @@ export function MobileNav({ role }: { role: Role }) {
     <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-800 bg-card lg:hidden">
       <div className="flex items-center justify-around">
         {items.map((item) => {
-          const isActive =
-            item.href === '/panel' ? pathname === '/panel' : pathname.startsWith(item.href)
+          const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href)
           return (
             <Link
               key={item.href}

@@ -6,6 +6,7 @@ import { BusinessGrid } from '@/modules/negocios/components/business-grid'
 import { SearchFilters } from '@/modules/negocios/components/search-filters'
 import { Pagination } from '@/modules/negocios/components/pagination'
 import { AdSlot, AdSlotSkeleton } from '@/modules/anuncios/components/ad-slot'
+import { ZeroResults } from '@/modules/negocios/components/zero-results'
 import type { BusinessCategory, BusinessCard } from '@/modules/negocios/interfaces'
 
 export const metadata: Metadata = {
@@ -45,6 +46,8 @@ export default async function ExplorarPage({ searchParams }: ExplorarPageProps) 
 
   const result = searchResult.data
   const businesses = (result?.data ?? []) as BusinessCard[]
+  const hasQuery = !!(params.query?.trim())
+  const zeroResults = hasQuery && businesses.length === 0
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-8 sm:py-12 lg:px-20">
@@ -64,7 +67,14 @@ export default async function ExplorarPage({ searchParams }: ExplorarPageProps) 
       </Suspense>
 
       <div className="mt-8">
-        <BusinessGrid businesses={businesses} />
+        {zeroResults ? (
+          <ZeroResults
+            query={params.query!}
+            neighborhood={params.neighborhood}
+          />
+        ) : (
+          <BusinessGrid businesses={businesses} />
+        )}
       </div>
 
       {result && result.total_pages > 1 && (

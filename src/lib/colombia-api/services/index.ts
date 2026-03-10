@@ -1,0 +1,6 @@
+export { citiesService } from './cities'
+export { departmentsService } from './departments'
+export { holidaysService } from './holidays'
+export { touristicService } from './touristic'
+export { countryService } from './country'
+export { fairsService } from './fairs'

@@ -17,6 +17,8 @@ import { createClient } from '@/lib/supabase/server'
 import { BusinessService } from '@/modules/negocios/services/business.service'
 import { formatPhone, formatWhatsAppLink, getBusinessStatus } from '@/lib/utils/format'
 import { AdSlot, AdSlotSkeleton } from '@/modules/anuncios/components/ad-slot'
+import { SimilarBusinesses, SimilarBusinessesSkeleton } from '@/modules/negocios/components/similar-businesses'
+import { TrackBusinessView } from '@/modules/analytics/components/track-business-view'
 import type { BusinessWithCategory, BusinessHours } from '@/modules/negocios/interfaces'
 
 const DAY_NAMES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
@@ -74,6 +76,9 @@ export default async function NegocioPage({ params }: PageProps) {
 
   return (
     <>
+      {/* Tracking invisible — registra business_view en el cliente */}
+      <TrackBusinessView businessId={business.id} neighborhood={business.neighborhood} />
+
       {/* ── Hero ── */}
       <div className="relative">
         {/* Cover image */}
@@ -235,6 +240,11 @@ export default async function NegocioPage({ params }: PageProps) {
                 </div>
               </section>
             )}
+
+            {/* También visitaron — Jaccard similarity */}
+            <Suspense fallback={<SimilarBusinessesSkeleton />}>
+              <SimilarBusinesses businessId={business.id} limit={4} />
+            </Suspense>
           </div>
 
           {/* ── Sidebar (desktop) ── */}
