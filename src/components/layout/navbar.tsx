@@ -8,10 +8,7 @@ import { UserMenu } from '@/components/layout/user-menu'
 import { useAuth } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils/cn'
 
-const navLinks = [
-  { href: '/ofertas', label: 'Ofertas' },
-  { href: '#negocios', label: 'Para Negocios' },
-]
+const navLinks: { href: string; label: string }[] = []
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
