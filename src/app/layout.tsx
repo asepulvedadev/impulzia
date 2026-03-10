@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import localFont from 'next/font/local'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
 
 const inter = Inter({
@@ -38,6 +39,7 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} ${blanka.variable} font-sans antialiased`}
       >
         {children}
+        <SpeedInsights />
       </body>
     </html>
   )
