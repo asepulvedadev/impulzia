@@ -34,8 +34,11 @@ export function MunicipioInfoPanel({ municipio, onClose }: MunicipioInfoPanelPro
   return (
     <div
       className={clsx(
-        'absolute right-4 top-4 z-[1000] w-64 rounded-xl border border-slate-700',
+        'absolute z-[1000] rounded-xl border border-slate-700',
         'bg-slate-900/95 p-4 shadow-xl backdrop-blur-sm',
+        // Mobile: bottom bar full width; sm+: top-right panel
+        'bottom-4 left-4 right-4 top-auto w-auto',
+        'sm:bottom-auto sm:left-auto sm:right-4 sm:top-4 sm:w-64',
       )}
     >
       <div className="mb-3 flex items-start justify-between">

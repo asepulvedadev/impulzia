@@ -24,24 +24,28 @@ interface MetroLegendProps {
 
 export function MetroLegend({ municipios, selected, onSelect }: MetroLegendProps) {
   return (
-    <div className="absolute bottom-4 left-4 z-[1000] rounded-xl border border-slate-700 bg-slate-900/90 p-3 backdrop-blur-sm">
-      <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+    <div className="absolute z-[1000] rounded-xl border border-slate-700 bg-slate-900/90 backdrop-blur-sm
+      left-4 top-4 p-2
+      sm:bottom-4 sm:left-4 sm:top-auto sm:p-3">
+      {/* Desktop label */}
+      <p className="mb-2 hidden text-xs font-semibold uppercase tracking-wider text-slate-400 sm:block">
         Municipios
       </p>
-      <ul className="flex flex-col gap-1">
+      {/* Mobile: horizontal scroll row; Desktop: vertical list */}
+      <ul className="flex flex-row gap-1 overflow-x-auto sm:flex-col">
         {municipios.map((m) => (
-          <li key={m.MPIOS}>
+          <li key={m.MPIOS} className="shrink-0">
             <button
               onClick={() => onSelect(selected === m.MPIOS ? null : m.MPIOS)}
               className={clsx(
-                'flex w-full items-center gap-2 rounded-lg px-2 py-1 text-left text-xs transition-colors',
+                'flex items-center gap-1.5 rounded-lg px-2 py-1 text-left text-xs transition-colors whitespace-nowrap',
                 selected === m.MPIOS
                   ? 'bg-slate-700 text-white'
                   : 'text-slate-300 hover:bg-slate-800',
               )}
             >
               <span
-                className="h-3 w-3 flex-shrink-0 rounded-sm"
+                className="h-2.5 w-2.5 flex-shrink-0 rounded-sm"
                 style={{ backgroundColor: getMunicipioColor(m.MPIOS) }}
               />
               <span className="font-medium">

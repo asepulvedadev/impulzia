@@ -25,7 +25,7 @@ const chipIdle =
 
 export function CategoryChips({ categories, activeSlug, onSelect }: CategoryChipsProps) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-x-visible sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {/* Todas */}
       <button
         type="button"
