@@ -31,7 +31,9 @@ interface MapaCucutaProps {
 export function MapaCucuta({ className }: MapaCucutaProps) {
   return (
     <div className={clsx('overflow-hidden rounded-2xl', className)}>
-      <MapaCucutaInner />
+      <div className="h-full w-full">
+        <MapaCucutaInner />
+      </div>
     </div>
   )
 }

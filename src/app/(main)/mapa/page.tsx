@@ -9,21 +9,17 @@ export const metadata: Metadata = {
 
 export default function MapaPage() {
   return (
-    <main className="flex min-h-screen flex-col bg-slate-950 px-4 py-4 md:px-8 md:py-6">
-      <div className="mx-auto w-full max-w-7xl">
-        {/* Header */}
-        <div className="mb-4">
-          <h1 className="text-xl font-bold text-white md:text-3xl">
-            Mapa de Cúcuta
-          </h1>
-          <p className="mt-0.5 text-sm text-slate-400">
-            Explora negocios locales por comunas y barrios
-          </p>
-        </div>
-
-        {/* Map — height accounts for bottom nav on mobile */}
-        <MapaCucuta className="h-[calc(100dvh-8rem)] w-full shadow-2xl sm:h-[calc(100vh-10rem)]" />
+    <div className="flex h-[calc(100dvh-5rem)] flex-col sm:h-[calc(100dvh-4rem)] lg:h-[calc(100dvh-2rem)]">
+      {/* Header */}
+      <div className="mb-3 shrink-0">
+        <h1 className="text-lg font-bold text-white sm:text-2xl">Mapa de Cúcuta</h1>
+        <p className="text-xs text-slate-400 sm:text-sm">
+          Explora negocios locales por comunas y barrios
+        </p>
       </div>
-    </main>
+
+      {/* Map — fills remaining space */}
+      <MapaCucuta className="min-h-0 flex-1 w-full shadow-2xl" />
+    </div>
   )
 }
