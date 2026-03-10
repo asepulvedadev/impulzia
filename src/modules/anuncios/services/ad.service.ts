@@ -134,17 +134,27 @@ export class AdService {
       return { data: null, error: error.message, success: false }
     }
 
-    // Get stats for each ad
+    // Get stats for each ad from impressions/clicks tables
     const ads = (data as Ad[]) ?? []
     const adsWithStats: AdWithStats[] = await Promise.all(
       ads.map(async (ad) => {
-        const { data: stats } = await this.supabase
-          .from('ad_stats')
-          .select('*')
-          .eq('ad_id', ad.id)
-          .single()
-
-        return { ...ad, stats: (stats as AdStats) ?? null }
+        const [{ count: impressions }, { count: clicks }] = await Promise.all([
+          this.supabase.from('ad_impressions').select('*', { count: 'exact', head: true }).eq('ad_id', ad.id),
+          this.supabase.from('ad_clicks').select('*', { count: 'exact', head: true }).eq('ad_id', ad.id),
+        ])
+        const totalImpressions = impressions ?? 0
+        const totalClicks = clicks ?? 0
+        const ctr = totalImpressions > 0 ? totalClicks / totalImpressions : 0
+        const stats: AdStats = {
+          ad_id: ad.id,
+          total_impressions: totalImpressions,
+          total_clicks: totalClicks,
+          ctr,
+          ctr_percentage: Math.round(ctr * 10000) / 100,
+          impressions_7d: null,
+          clicks_7d: null,
+        }
+        return { ...ad, stats }
       }),
     )
 
@@ -512,52 +522,33 @@ export class AdService {
       }
     }
 
-    const { data: statsRaw, error: statsError } = await this.supabase
-      .from('ad_stats')
-      .select('*')
-      .eq('ad_id', adId)
-      .single()
-
-    if (statsError) {
-      return { data: null, error: statsError.message, success: false }
-    }
-
-    const stats = statsRaw as AdStats | null
-
     const now = new Date()
     const last24h = new Date(now.getTime() - 86400000).toISOString()
+    const last7d = new Date(now.getTime() - 86400000 * 7).toISOString()
     const last30d = new Date(now.getTime() - 86400000 * 30).toISOString()
 
-    const [imp24h, clk24h, imp30d, clk30d] = await Promise.all([
-      this.supabase
-        .from('ad_impressions')
-        .select('*', { count: 'exact', head: true })
-        .eq('ad_id', adId)
-        .gte('created_at', last24h),
-      this.supabase
-        .from('ad_clicks')
-        .select('*', { count: 'exact', head: true })
-        .eq('ad_id', adId)
-        .gte('created_at', last24h),
-      this.supabase
-        .from('ad_impressions')
-        .select('*', { count: 'exact', head: true })
-        .eq('ad_id', adId)
-        .gte('created_at', last30d),
-      this.supabase
-        .from('ad_clicks')
-        .select('*', { count: 'exact', head: true })
-        .eq('ad_id', adId)
-        .gte('created_at', last30d),
+    const [impTotal, clkTotal, imp24h, clk24h, imp7d, clk7d, imp30d, clk30d] = await Promise.all([
+      this.supabase.from('ad_impressions').select('*', { count: 'exact', head: true }).eq('ad_id', adId),
+      this.supabase.from('ad_clicks').select('*', { count: 'exact', head: true }).eq('ad_id', adId),
+      this.supabase.from('ad_impressions').select('*', { count: 'exact', head: true }).eq('ad_id', adId).gte('created_at', last24h),
+      this.supabase.from('ad_clicks').select('*', { count: 'exact', head: true }).eq('ad_id', adId).gte('created_at', last24h),
+      this.supabase.from('ad_impressions').select('*', { count: 'exact', head: true }).eq('ad_id', adId).gte('created_at', last7d),
+      this.supabase.from('ad_clicks').select('*', { count: 'exact', head: true }).eq('ad_id', adId).gte('created_at', last7d),
+      this.supabase.from('ad_impressions').select('*', { count: 'exact', head: true }).eq('ad_id', adId).gte('created_at', last30d),
+      this.supabase.from('ad_clicks').select('*', { count: 'exact', head: true }).eq('ad_id', adId).gte('created_at', last30d),
     ])
+
+    const totalImpressions = impTotal.count ?? 0
+    const totalClicks = clkTotal.count ?? 0
+    const ctr = totalImpressions > 0 ? totalClicks / totalImpressions : 0
 
     const result: AdDetailedStats = {
       ad_id: adId,
-      total_impressions: stats?.total_impressions ?? 0,
-      total_clicks: stats?.total_clicks ?? 0,
-      ctr_percentage: stats?.ctr_percentage ?? 0,
-      impressions_last_7d: stats?.impressions_last_7d ?? 0,
-      clicks_last_7d: stats?.clicks_last_7d ?? 0,
+      total_impressions: totalImpressions,
+      total_clicks: totalClicks,
+      ctr_percentage: Math.round(ctr * 10000) / 100,
+      impressions_last_7d: imp7d.count ?? 0,
+      clicks_last_7d: clk7d.count ?? 0,
       impressions_last_24h: imp24h.count ?? 0,
       clicks_last_24h: clk24h.count ?? 0,
       impressions_last_30d: imp30d.count ?? 0,

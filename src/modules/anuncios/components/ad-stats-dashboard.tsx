@@ -73,7 +73,7 @@ interface AdStatsDashboardProps {
 }
 
 export function AdStatsDashboard({ ad, stats }: AdStatsDashboardProps) {
-  const statusConfig = STATUS_CONFIG[ad.status]
+  const statusConfig = STATUS_CONFIG[ad.status as keyof typeof STATUS_CONFIG]
 
   if (!stats || stats.total_impressions === 0) {
     return (

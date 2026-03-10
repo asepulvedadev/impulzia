@@ -1,15 +1,22 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/supabase/database.types'
+import type { Json } from '@/lib/supabase/database.types'
 import type {
   Business,
   BusinessCard,
   BusinessCategory,
   BusinessFormData,
   BusinessHours,
+  BusinessLanding,
   BusinessSearchParams,
   BusinessSearchResult,
   BusinessWithCategory,
+  CatalogItem,
+  CatalogSection,
+  HeroSlide,
+  LandingUpdateInput,
   ServiceResult,
+  SocialLinks,
 } from '../interfaces'
 import { SlugService } from './slug.service'
 
@@ -358,5 +365,91 @@ export class BusinessService {
       error: null,
       success: true,
     }
+  }
+
+  async getFullLanding(slug: string): Promise<ServiceResult<BusinessLanding>> {
+    const { data, error } = await this.supabase
+      .from('businesses')
+      .select(`
+        id, name, slug, owner_id, short_description, description,
+        logo_url, cover_url, phone, whatsapp, email, website,
+        address, neighborhood, city, latitude, longitude,
+        is_verified, is_featured, subscription_tier,
+        brand_color_primary, brand_color_secondary, brand_color_accent,
+        hero_slides, social_links, story_title, story_content, landing_visible,
+        business_categories(name, slug, icon),
+        business_catalog_sections(
+          id, name, description, sort_order, is_visible,
+          business_catalog_items(
+            id, name, description, price, price_label,
+            image_url, is_available, is_featured, sort_order, metadata
+          )
+        )
+      `)
+      .eq('slug', slug)
+      .eq('is_active', true)
+      .eq('landing_visible', true)
+      .single()
+
+    if (error || !data) {
+      return { data: null, error: error?.message ?? 'Not found', success: false }
+    }
+
+    const raw = data as unknown as BusinessLanding & {
+      business_catalog_sections: (CatalogSection & {
+        business_catalog_items: CatalogItem[]
+      })[]
+    }
+
+    // Sort sections and items
+    const sections = (raw.business_catalog_sections ?? [])
+      .filter((s) => s.is_visible)
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .map((s) => ({
+        ...s,
+        business_catalog_items: (s.business_catalog_items ?? [])
+          .filter((i) => i.is_available)
+          .sort((a, b) => a.sort_order - b.sort_order),
+      }))
+
+    const landing: BusinessLanding = {
+      ...raw,
+      hero_slides: Array.isArray(raw.hero_slides) ? (raw.hero_slides as HeroSlide[]) : [],
+      social_links: (raw.social_links as SocialLinks) ?? {},
+      business_catalog_sections: sections,
+    }
+
+    return { data: landing, error: null, success: true }
+  }
+
+  async updateLanding(
+    businessId: string,
+    ownerId: string,
+    input: LandingUpdateInput,
+  ): Promise<ServiceResult<void>> {
+    const updateData: Database['public']['Tables']['businesses']['Update'] = {}
+
+    const fields: (keyof LandingUpdateInput)[] = [
+      'name', 'short_description', 'description', 'phone', 'whatsapp',
+      'email', 'website', 'address', 'neighborhood', 'city',
+      'brand_color_primary', 'brand_color_secondary', 'brand_color_accent',
+      'story_title', 'story_content',
+    ]
+    for (const f of fields) {
+      if (input[f] !== undefined) {
+        (updateData as Record<string, unknown>)[f] = input[f]
+      }
+    }
+    if (input.hero_slides !== undefined) updateData.hero_slides = input.hero_slides as unknown as Json
+    if (input.social_links !== undefined) updateData.social_links = input.social_links as unknown as Json
+
+    const { error } = await this.supabase
+      .from('businesses')
+      .update(updateData)
+      .eq('id', businessId)
+      .eq('owner_id', ownerId)
+
+    if (error) return { data: null, error: error.message, success: false }
+    return { data: undefined, error: null, success: true }
   }
 }

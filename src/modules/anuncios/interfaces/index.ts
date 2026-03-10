@@ -4,13 +4,19 @@ import type { Database } from '@/lib/supabase/database.types'
 type AdRow = Database['public']['Tables']['ads']['Row']
 type AdImpressionRow = Database['public']['Tables']['ad_impressions']['Row']
 type AdClickRow = Database['public']['Tables']['ad_clicks']['Row']
-type AdStatsRow = Database['public']['Views']['ad_stats']['Row']
-
 // Core types
 export type Ad = AdRow
 export type AdImpression = AdImpressionRow
 export type AdClick = AdClickRow
-export type AdStats = AdStatsRow
+export interface AdStats {
+  ad_id: string | null
+  total_impressions: number | null
+  total_clicks: number | null
+  ctr: number | null
+  ctr_percentage: number | null
+  impressions_7d: number | null
+  clicks_7d: number | null
+}
 
 // Ad with extended stats
 export interface AdWithStats extends Ad {

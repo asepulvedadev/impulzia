@@ -87,8 +87,8 @@ export default async function IncentiveDetailPage({ params }: Props) {
             initialValues={{
               title: incentive.title,
               description: incentive.description ?? undefined,
-              type: incentive.type,
-              discount_type: incentive.discount_type ?? undefined,
+              type: incentive.type as 'coupon' | 'combo' | 'reward',
+              discount_type: (incentive.discount_type ?? undefined) as 'percentage' | 'fixed_amount' | 'free_item' | undefined,
               discount_value: incentive.discount_value ?? undefined,
               min_purchase: incentive.min_purchase ?? undefined,
               max_uses: incentive.max_uses ?? undefined,

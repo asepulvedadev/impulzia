@@ -39,7 +39,7 @@ export function IncentiveDetailModal({
 }: IncentiveDetailModalProps) {
   if (!incentive) return null
 
-  const typeConfig = TYPE_CONFIG[incentive.type]
+  const typeConfig = TYPE_CONFIG[incentive.type as keyof typeof TYPE_CONFIG]
   const TypeIcon = typeConfig.icon
   const discountLabel = formatDiscount(incentive.discount_type, incentive.discount_value)
 

@@ -95,7 +95,7 @@ export function AiToolsGrid({ usageSummaries = [] }: AiToolsGridProps) {
             </div>
 
             <div>
-              <p className="font-semibold text-white text-sm">{AI_TOOL_LABELS[tool]}</p>
+              <p className="font-semibold text-white text-sm">{AI_TOOL_LABELS[tool as keyof typeof AI_TOOL_LABELS]}</p>
               <p className="text-xs text-slate-400 mt-0.5">{description}</p>
             </div>
 

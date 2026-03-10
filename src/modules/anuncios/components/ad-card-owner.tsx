@@ -55,7 +55,7 @@ function formatDate(dateStr: string | null) {
 
 export function AdCardOwner({ ad, onEdit }: AdCardOwnerProps) {
   const [loading, setLoading] = React.useState(false)
-  const statusConfig = STATUS_CONFIG[ad.status]
+  const statusConfig = STATUS_CONFIG[ad.status as keyof typeof STATUS_CONFIG]
 
   async function handlePublish() {
     setLoading(true)
@@ -113,7 +113,7 @@ export function AdCardOwner({ ad, onEdit }: AdCardOwnerProps) {
               <Badge variant={statusConfig.variant} className="text-[10px] py-0">
                 {statusConfig.label}
               </Badge>
-              <span className="text-[11px] text-muted">{TYPE_LABELS[ad.type]}</span>
+              <span className="text-[11px] text-muted">{TYPE_LABELS[ad.type as keyof typeof TYPE_LABELS]}</span>
             </div>
           </div>
 

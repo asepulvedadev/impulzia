@@ -45,8 +45,8 @@ export function IncentiveCardOwner({
   onResume,
   onDelete,
 }: IncentiveCardOwnerProps) {
-  const statusConfig = STATUS_CONFIG[incentive.status]
-  const TypeIcon = TYPE_ICONS[incentive.type]
+  const statusConfig = STATUS_CONFIG[incentive.status as keyof typeof STATUS_CONFIG]
+  const TypeIcon = TYPE_ICONS[incentive.type as keyof typeof TYPE_ICONS]
 
   return (
     <Card className="p-4 flex flex-col gap-3">
@@ -156,7 +156,7 @@ export function IncentiveCardOwner({
             <MousePointerClick size={11} />
             {incentive.stats.confirmed_redemptions} confirmados
           </span>
-          {incentive.stats.total_saved > 0 && (
+          {(incentive.stats.total_saved ?? 0) > 0 && (
             <span className="text-brand-primary-400">{incentive.stats.total_saved} guardados</span>
           )}
         </div>

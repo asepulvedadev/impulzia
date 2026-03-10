@@ -69,7 +69,7 @@ export function AdForm({ businessId, ad, mode }: AdFormProps) {
   const [error, setError] = React.useState<string | null>(null)
 
   // Form state
-  const [type, setType] = React.useState<AdType>(ad?.type ?? 'featured')
+  const [type, setType] = React.useState<AdType>((ad?.type as AdType | undefined) ?? 'featured')
   const [title, setTitle] = React.useState(ad?.title ?? '')
   const [description, setDescription] = React.useState(ad?.description ?? '')
   const [imageUrl, setImageUrl] = React.useState(ad?.image_url ?? '')

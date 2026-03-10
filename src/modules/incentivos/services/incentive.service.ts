@@ -295,7 +295,7 @@ export class IncentiveService {
         `
         *,
         incentive:incentives(id, title, type, discount_type, discount_value),
-        user:profiles(id, full_name, email)
+        user:profiles!redemptions_user_id_fkey(id, full_name, email)
       `,
       )
       .eq('business_id', businessId)
@@ -313,7 +313,7 @@ export class IncentiveService {
         `
         *,
         incentive:incentives(id, title, type, discount_type, discount_value),
-        user:profiles(id, full_name, email)
+        user:profiles!redemptions_user_id_fkey(id, full_name, email)
       `,
       )
       .eq('user_id', userId)

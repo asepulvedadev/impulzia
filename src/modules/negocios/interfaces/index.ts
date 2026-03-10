@@ -91,3 +91,83 @@ export interface ServiceResult<T> {
   error: string | null
   success: boolean
 }
+
+// ── Landing page types ──────────────────────────────────────────────────────
+
+export interface HeroSlide {
+  url: string
+  alt?: string
+  caption?: string
+}
+
+export interface SocialLinks {
+  instagram?: string
+  facebook?: string
+  tiktok?: string
+  linkedin?: string
+  twitter?: string
+  youtube?: string
+}
+
+export type CatalogSection = Database['public']['Tables']['business_catalog_sections']['Row'] & {
+  business_catalog_items: CatalogItem[]
+}
+
+export type CatalogItem = Database['public']['Tables']['business_catalog_items']['Row']
+
+export interface BusinessLanding {
+  id: string
+  name: string
+  slug: string
+  owner_id: string
+  short_description: string | null
+  description: string | null
+  logo_url: string | null
+  cover_url: string | null
+  phone: string | null
+  whatsapp: string | null
+  email: string | null
+  website: string | null
+  address: string | null
+  neighborhood: string | null
+  city: string | null
+  latitude: number | null
+  longitude: number | null
+  is_verified: boolean
+  is_featured: boolean
+  subscription_tier: string
+  brand_color_primary: string
+  brand_color_secondary: string
+  brand_color_accent: string
+  hero_slides: HeroSlide[]
+  social_links: SocialLinks
+  story_title: string | null
+  story_content: string | null
+  landing_visible: boolean
+  business_categories: {
+    name: string
+    slug: string
+    icon: string | null
+  } | null
+  business_catalog_sections: CatalogSection[]
+}
+
+export interface LandingUpdateInput {
+  name?: string
+  short_description?: string
+  description?: string
+  phone?: string
+  whatsapp?: string
+  email?: string
+  website?: string
+  address?: string
+  neighborhood?: string
+  city?: string
+  brand_color_primary?: string
+  brand_color_secondary?: string
+  brand_color_accent?: string
+  story_title?: string
+  story_content?: string
+  hero_slides?: HeroSlide[]
+  social_links?: SocialLinks
+}

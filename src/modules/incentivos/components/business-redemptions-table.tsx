@@ -46,7 +46,7 @@ export function BusinessRedemptionsTable({ redemptions }: BusinessRedemptionsTab
   return (
     <div className="space-y-2">
       {redemptions.map((r) => {
-        const statusConfig = STATUS_CONFIG[r.status]
+        const statusConfig = STATUS_CONFIG[r.status as keyof typeof STATUS_CONFIG]
         const StatusIcon = statusConfig.icon
 
         return (

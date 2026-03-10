@@ -54,7 +54,7 @@ export function AiHistoryList({
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-brand-primary-400">
-              {AI_TOOL_LABELS[gen.tool]}
+              {AI_TOOL_LABELS[gen.tool as keyof typeof AI_TOOL_LABELS]}
             </span>
             <div className="flex items-center gap-1">
               <button

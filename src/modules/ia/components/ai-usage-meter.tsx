@@ -21,7 +21,7 @@ export function AiUsageMeter({ summaries, className }: AiUsageMeterProps) {
         return (
           <div key={s.tool} className="space-y-1">
             <div className="flex justify-between text-xs">
-              <span className="text-slate-400">{AI_TOOL_LABELS[s.tool]}</span>
+              <span className="text-slate-400">{AI_TOOL_LABELS[s.tool as keyof typeof AI_TOOL_LABELS]}</span>
               <span
                 className={cn(
                   s.isUnlimited
