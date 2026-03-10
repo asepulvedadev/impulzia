@@ -128,19 +128,19 @@ export function HeroSlider({
       )}
 
       {/* Bottom info bar */}
-      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8">
+      <div className="absolute bottom-0 left-0 right-0 z-10 p-5 sm:p-8">
         <div className="mx-auto flex max-w-5xl items-end gap-4">
-          {/* Logo */}
+          {/* Logo — always on top of cover */}
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={logoUrl}
               alt={businessName}
-              className="h-20 w-20 shrink-0 rounded-2xl border-2 border-white/20 object-cover shadow-2xl sm:h-24 sm:w-24"
+              className="relative z-20 h-20 w-20 shrink-0 rounded-2xl border-2 border-white/30 object-cover shadow-2xl ring-2 ring-black/20 sm:h-24 sm:w-24"
             />
           ) : (
             <div
-              className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border-2 border-white/20 text-3xl font-black text-white shadow-2xl sm:h-24 sm:w-24"
+              className="relative z-20 flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border-2 border-white/30 text-3xl font-black text-white shadow-2xl ring-2 ring-black/20 sm:h-24 sm:w-24"
               style={{ background: brandPrimary }}
             >
               {initial}

@@ -59,7 +59,7 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
       className,
     )}>
       {/* Cover + Logo wrapper — overflow visible so logo can overlap */}
-      <div className="relative shrink-0">
+      <div className="relative shrink-0 overflow-visible">
         <Link
           href={`/negocio/${business.slug}`}
           className="relative block aspect-[16/9] overflow-hidden rounded-t-2xl"
@@ -104,7 +104,7 @@ export function BusinessCard({ business, className }: BusinessCardProps) {
         </Link>
 
         {/* Logo — outside the Link so overflow-hidden no lo recorta */}
-        <div className="absolute bottom-0 left-4 z-10 translate-y-1/2">
+        <div className="absolute bottom-0 left-4 z-20 translate-y-1/2">
           {business.logo_url ? (
             <div className="relative h-14 w-14 overflow-hidden rounded-xl border-[3px] border-slate-900 shadow-xl ring-1 ring-slate-700">
               <Image
